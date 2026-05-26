@@ -2,8 +2,9 @@
 <html lang="hr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0a0a0a">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>BRUNO • CUT TRACKER</title>
@@ -12,65 +13,44 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0a0a;
-  --bg-elev: #141414;
-  --bg-card: #1a1a1a;
-  --bg-card-hover: #222;
-  --border: #2a2a2a;
-  --border-strong: #3a3a3a;
-  --text: #f5f5f5;
-  --text-dim: #999;
-  --text-muted: #666;
-  --accent: #ff5722;
-  --accent-dim: #cc3d10;
-  --accent-bg: rgba(255, 87, 34, 0.1);
-  --success: #4ade80;
-  --success-bg: rgba(74, 222, 128, 0.1);
-  --warn: #fbbf24;
-  --danger: #ef4444;
+  --bg: #0a0a0a; --bg-elev: #141414; --bg-card: #1a1a1a; --bg-card-hover: #222;
+  --border: #2a2a2a; --border-strong: #3a3a3a;
+  --text: #f5f5f5; --text-dim: #999; --text-muted: #666;
+  --accent: #ff5722; --accent-dim: #cc3d10; --accent-bg: rgba(255, 87, 34, 0.1);
+  --success: #4ade80; --success-bg: rgba(74, 222, 128, 0.1);
+  --info: #3b82f6; --info-bg: rgba(59, 130, 246, 0.1);
+  --warn: #fbbf24; --danger: #ef4444;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
 html, body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', -apple-system, sans-serif;
-  font-size: 15px;
-  line-height: 1.5;
-  min-height: 100vh;
-  overscroll-behavior-y: none;
+  background: var(--bg); color: var(--text);
+  font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; line-height: 1.5;
+  min-height: 100vh; overscroll-behavior-y: none;
 }
-
-.app { max-width: 720px; margin: 0 auto; padding: 16px 14px 100px; }
-
+.app { 
+  max-width: 720px; 
+  margin: 0 auto; 
+  padding: 16px 16px 100px; 
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  padding-top: max(16px, env(safe-area-inset-top));
+  padding-bottom: max(100px, calc(env(safe-area-inset-bottom) + 100px));
+}
 .header {
   display: flex; justify-content: space-between; align-items: flex-end;
   padding: 8px 4px 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px;
 }
 .brand { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; line-height: 1; }
 .brand-accent { color: var(--accent); }
-.day-info {
-  text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px;
-  color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;
-}
+.day-info { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
 .day-num { font-size: 22px; font-family: 'Bebas Neue', sans-serif; color: var(--text); letter-spacing: 1px; }
-
-.sync-status {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-family: 'JetBrains Mono', monospace; font-size: 9px;
-  color: var(--text-muted); margin-top: 4px; letter-spacing: 1px;
-}
+.sync-status { display: inline-flex; align-items: center; gap: 5px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-muted); margin-top: 4px; letter-spacing: 1px; }
 .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted); }
 .sync-dot.ok { background: var(--success); }
 .sync-dot.err { background: var(--danger); }
 .sync-dot.syncing { background: var(--warn); animation: pulse 1s infinite; }
 @keyframes pulse { 50% { opacity: 0.4; } }
-
-.tabs {
-  display: flex; gap: 4px; margin-bottom: 18px;
-  overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
-}
+.tabs { display: flex; gap: 4px; margin-bottom: 18px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
 .tabs::-webkit-scrollbar { display: none; }
 .tab {
   background: transparent; border: 1px solid var(--border); color: var(--text-dim);
@@ -81,10 +61,8 @@ html, body {
 }
 .tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 .tab:not(.active):hover { border-color: var(--border-strong); color: var(--text); }
-
 .section { display: none; }
 .section.active { display: block; }
-
 .section-title {
   font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 2px;
   color: var(--text-dim); margin: 22px 0 10px; padding: 0 2px;
@@ -92,24 +70,15 @@ html, body {
 }
 .section-title:first-child { margin-top: 0; }
 .section-title .count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); }
-
 .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 10px; }
 .card-row { display: flex; justify-content: space-between; align-items: center; }
-
 .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
-.hero-card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 12px; padding: 14px; position: relative;
-}
+.hero-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; position: relative; }
 .hero-card.accent { background: var(--accent-bg); border-color: var(--accent); }
-.hero-label {
-  font-family: 'JetBrains Mono', monospace; font-size: 10px;
-  color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;
-}
+.hero-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
 .hero-value { font-family: 'Bebas Neue', sans-serif; font-size: 30px; line-height: 1; letter-spacing: 1px; }
 .hero-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); margin-top: 4px; }
 .hero-card.accent .hero-value { color: var(--accent); }
-
 .check-item {
   background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
   padding: 12px 14px; margin-bottom: 8px;
@@ -123,45 +92,42 @@ html, body {
   flex-shrink: 0; display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 14px; color: var(--bg); transition: all 0.15s;
 }
-.check-item.done .checkbox { background: var(--success); border-color: var(--success); }
-.check-item.done .checkbox::after { content: '✓'; }
+.checkbox.sm { width: 18px; height: 18px; border-radius: 5px; font-size: 11px; }
+.check-item.done .checkbox, .meal-comp.done .checkbox, .exercise-row.done .checkbox { background: var(--success); border-color: var(--success); }
+.check-item.done .checkbox::after, .meal-comp.done .checkbox::after, .exercise-row.done .checkbox::after { content: '✓'; }
 .check-item.done .check-label { text-decoration: line-through; color: var(--text-dim); }
 .check-label { flex: 1; font-size: 14px; }
 .check-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); }
-
 .meal-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
 .meal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .meal-title { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 1.5px; }
 .meal-kcal { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); font-weight: 500; }
-.meal-items { display: flex; flex-direction: column; gap: 6px; }
-.meal-item { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-dim); padding: 4px 0; }
-.meal-item .price { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
-.meal-actions { display: flex; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
-.btn-mini {
-  flex: 1; background: transparent; border: 1px solid var(--border); color: var(--text-dim);
-  padding: 7px; border-radius: 7px; font-size: 11px;
-  font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 1px;
+.meal-comps { display: flex; flex-direction: column; gap: 4px; }
+.meal-comp {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 8px;
+  background: var(--bg-elev); border: 1px solid var(--border);
   cursor: pointer; transition: all 0.15s;
 }
-.btn-mini:hover { border-color: var(--border-strong); color: var(--text); }
-.btn-mini.done { background: var(--success-bg); border-color: var(--success); color: var(--success); }
-
-.weight-card {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
-  display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px;
+.meal-comp:hover { background: var(--bg-card-hover); }
+.meal-comp.done { background: rgba(74, 222, 128, 0.06); border-color: rgba(74, 222, 128, 0.2); }
+.meal-comp-name { flex: 1; font-size: 13px; }
+.meal-comp.done .meal-comp-name { color: var(--text-dim); }
+.meal-comp-qty {
+  background: var(--bg); border: 1px solid var(--border); color: var(--text);
+  padding: 5px 8px; border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  width: 55px; text-align: right;
 }
-.weight-label {
-  font-family: 'JetBrains Mono', monospace; font-size: 10px;
-  color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px;
+.meal-comp-qty:focus { outline: none; border-color: var(--accent); }
+.meal-comp-unit { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); width: 24px; }
+.meal-summary {
+  display: flex; gap: 12px; padding-top: 10px; margin-top: 10px;
+  border-top: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
 }
-.weight-input {
-  background: var(--bg-elev); border: 1px solid var(--border); color: var(--text);
-  padding: 10px 12px; border-radius: 8px;
-  font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 500;
-  width: 100px; text-align: right;
-}
-.weight-input:focus { outline: none; border-color: var(--accent); }
-
+.meal-summary span { color: var(--text-dim); }
+.meal-summary strong { color: var(--text); font-weight: 500; }
 .btn {
   background: var(--accent); border: none; color: #fff;
   padding: 10px 16px; border-radius: 8px;
@@ -172,40 +138,49 @@ html, body {
 .btn:hover { background: var(--accent-dim); }
 .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
 .btn-ghost:hover { border-color: var(--border-strong); color: var(--text); background: var(--bg-card-hover); }
-
 .workout-day { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
-.workout-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.workout-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .workout-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1.5px; }
-.workout-badge {
-  font-family: 'JetBrains Mono', monospace; font-size: 10px;
-  padding: 4px 8px; border-radius: 6px;
-  background: var(--accent-bg); color: var(--accent); letter-spacing: 1px;
-}
+.workout-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 8px; border-radius: 6px; background: var(--accent-bg); color: var(--accent); letter-spacing: 1px; }
 .workout-badge.rest { background: rgba(102, 102, 102, 0.15); color: var(--text-dim); }
-.workout-badge.cardio { background: rgba(74, 222, 128, 0.1); color: var(--success); }
-
+.workout-badge.cardio { background: var(--info-bg); color: var(--info); }
+.exercise-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px; margin-bottom: 6px; border-radius: 8px;
+  background: var(--bg-elev); border: 1px solid var(--border);
+  cursor: pointer; transition: all 0.15s;
+}
+.exercise-row:hover { background: var(--bg-card-hover); }
+.exercise-row.done { background: rgba(74, 222, 128, 0.06); border-color: rgba(74, 222, 128, 0.2); }
+.exercise-row.done .ex-name { text-decoration: line-through; color: var(--text-dim); }
+.ex-name { flex: 1; font-size: 13px; }
+.ex-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); }
+.weight-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+.weight-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+.weight-input {
+  background: var(--bg-elev); border: 1px solid var(--border); color: var(--text);
+  padding: 10px 12px; border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 500;
+  width: 100px; text-align: right;
+}
+.weight-input:focus { outline: none; border-color: var(--accent); }
 .shop-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
 .shop-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .shop-item:last-child { border-bottom: none; }
 .shop-item-name { font-size: 13px; }
 .shop-item-qty { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); }
-
 .price-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); gap: 10px; }
 .price-row:last-child { border-bottom: none; }
 .price-name { font-size: 13px; flex: 1; }
-.price-name small {
-  display: block; font-size: 10px; color: var(--text-muted);
-  font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;
-}
+.price-name small { display: block; font-size: 10px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
 .price-input {
   background: var(--bg-elev); border: 1px solid var(--border); color: var(--text);
   padding: 7px 10px; border-radius: 7px;
   font-family: 'JetBrains Mono', monospace; font-size: 13px;
-  width: 90px; text-align: right;
+  width: 80px; text-align: right;
 }
 .price-input:focus { outline: none; border-color: var(--accent); }
 .price-unit { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); width: 30px; }
-
 .stat-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 10px; }
 .stat-bar-row { margin-bottom: 14px; }
 .stat-bar-row:last-child { margin-bottom: 0; }
@@ -215,17 +190,14 @@ html, body {
 .stat-bar { height: 6px; background: var(--bg-elev); border-radius: 3px; overflow: hidden; }
 .stat-bar-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.4s; }
 .stat-bar-fill.success { background: var(--success); }
-
 .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 10px; }
-.chart-fallback { height: 200px; display: flex; align-items: flex-end; gap: 6px; padding-top: 20px; }
+.chart-fallback { height: 180px; display: flex; align-items: flex-end; gap: 5px; padding-top: 20px; }
 .chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
 .chart-bar { width: 100%; background: var(--accent); border-radius: 3px 3px 0 0; min-height: 2px; position: relative; }
 .chart-bar.empty { background: var(--border); }
 .chart-bar-label { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--text-muted); }
 .chart-bar-val { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text); position: absolute; top: -16px; left: 50%; transform: translateX(-50%); white-space: nowrap; }
-
 .empty { text-align: center; padding: 30px 20px; color: var(--text-muted); font-size: 13px; }
-
 .qty-input {
   background: var(--bg-elev); border: 1px solid var(--border); color: var(--text);
   padding: 5px 8px; border-radius: 6px;
@@ -233,9 +205,7 @@ html, body {
   width: 60px; text-align: right;
 }
 .qty-input:focus { outline: none; border-color: var(--accent); }
-
 .controls { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-
 .big-btn {
   width: 100%; background: var(--accent); color: #fff; border: none;
   padding: 16px; border-radius: 12px;
@@ -243,7 +213,6 @@ html, body {
   cursor: pointer; margin-bottom: 16px; transition: all 0.15s;
 }
 .big-btn:hover { background: var(--accent-dim); }
-
 .day-picker { display: flex; gap: 4px; margin-bottom: 14px; overflow-x: auto; scrollbar-width: none; }
 .day-picker::-webkit-scrollbar { display: none; }
 .day-pill {
@@ -256,7 +225,6 @@ html, body {
 }
 .day-pill.today { border-color: var(--accent); color: var(--accent); }
 .day-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-
 .toast {
   position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px);
   background: var(--bg-card); border: 1px solid var(--border-strong); color: var(--text);
@@ -265,20 +233,34 @@ html, body {
   font-family: 'JetBrains Mono', monospace;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
-
 .settings-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 10px; }
 .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); gap: 10px; }
 .settings-row:last-child { border-bottom: none; }
 .settings-label { font-size: 13px; color: var(--text-dim); flex: 1; }
-
-.sync-setup-card {
-  background: var(--accent-bg); border: 1px solid var(--accent);
-  border-radius: 12px; padding: 14px; margin-bottom: 14px;
-}
+.sync-setup-card { background: var(--accent-bg); border: 1px solid var(--accent); border-radius: 12px; padding: 14px; margin-bottom: 14px; }
 .sync-setup-title { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 6px; }
-
+.macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 4px; }
+.macro-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 8px; text-align: center; }
+.macro-card.kcal { background: var(--accent-bg); border-color: var(--accent); }
+.macro-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; }
+.macro-val { font-family: 'Bebas Neue', sans-serif; font-size: 22px; line-height: 1; letter-spacing: 1px; margin-top: 4px; }
+.macro-target { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-muted); margin-top: 2px; }
+.macro-card.kcal .macro-val { color: var(--accent); }
+.photo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.photo-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; aspect-ratio: 3/4; position: relative; cursor: pointer; }
+.photo-card img { width: 100%; height: 100%; object-fit: cover; }
+.photo-card.empty { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 11px; text-align: center; padding: 10px; }
+.photo-label { position: absolute; bottom: 4px; left: 4px; right: 4px; background: rgba(0,0,0,0.7); padding: 4px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text); display: flex; justify-content: space-between; }
+.photo-del { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.7); border: none; color: var(--danger); padding: 4px 6px; border-radius: 4px; font-size: 11px; cursor: pointer; }
+.measure-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.measure-row:last-child { border-bottom: none; }
+.measure-name { font-size: 13px; }
+.measure-trend { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+.measure-trend.down { color: var(--success); }
+.measure-trend.up { color: var(--warn); }
 @media (max-width: 380px) {
-  .hero { grid-template-columns: 1fr; }
+  .hero, .photo-grid { grid-template-columns: 1fr; }
+  .macro-grid { grid-template-columns: repeat(2, 1fr); }
   .brand { font-size: 22px; }
 }
 </style>
@@ -301,12 +283,16 @@ html, body {
     <button class="tab active" data-tab="today">Danas</button>
     <button class="tab" data-tab="meals">Obroci</button>
     <button class="tab" data-tab="workout">Trening</button>
+    <button class="tab" data-tab="body">Tijelo</button>
+    <button class="tab" data-tab="photos">Slike</button>
+    <button class="tab" data-tab="food">Hrana</button>
     <button class="tab" data-tab="shopping">Shopping</button>
     <button class="tab" data-tab="prices">Cijene</button>
     <button class="tab" data-tab="stats">Stats</button>
     <button class="tab" data-tab="settings">Setup</button>
   </div>
 
+  <!-- TODAY -->
   <section class="section active" id="section-today">
     <div class="hero">
       <div class="hero-card accent">
@@ -331,6 +317,40 @@ html, body {
       </div>
     </div>
 
+    <div class="section-title">Danas u brojevima</div>
+    <div class="macro-grid">
+      <div class="macro-card kcal">
+        <div class="macro-label">Pojeo</div>
+        <div class="macro-val"><span id="today-kcal-in">0</span></div>
+        <div class="macro-target">/ <span id="today-kcal-target">1800</span> kcal</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-label">Protein</div>
+        <div class="macro-val"><span id="today-protein">0</span></div>
+        <div class="macro-target">g</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-label">Masti</div>
+        <div class="macro-val"><span id="today-fat">0</span></div>
+        <div class="macro-target">g</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-label">UH</div>
+        <div class="macro-val"><span id="today-carbs">0</span></div>
+        <div class="macro-target">g</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:8px; margin-top:8px;">
+      <div class="card" style="flex:1; padding:12px; margin-bottom:0;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px;">TRENING BURN</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:22px;"><span id="today-kcal-out">0</span> kcal</div>
+      </div>
+      <div class="card" style="flex:1; padding:12px; margin-bottom:0;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px;">TROŠAK DANAS</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--accent);"><span id="today-cost">0.00</span> €</div>
+      </div>
+    </div>
+
     <div class="section-title">Težina danas</div>
     <div class="weight-card">
       <div>
@@ -346,6 +366,9 @@ html, body {
     <div class="section-title">Obroci danas <span class="count" id="meals-count">0/2</span></div>
     <div id="today-meals"></div>
 
+    <div class="section-title">Dodatni obroci <button class="btn btn-ghost" id="add-custom-meal-btn" style="padding:5px 10px; font-size:10px;">+ Dodaj</button></div>
+    <div id="today-custom-meals"></div>
+
     <div class="section-title">Trening danas <span class="count" id="workout-count">--</span></div>
     <div id="today-workout"></div>
 
@@ -356,16 +379,91 @@ html, body {
     <div id="tomorrow-shop"></div>
   </section>
 
+  <!-- MEALS -->
   <section class="section" id="section-meals">
     <div class="day-picker" id="meals-day-picker"></div>
     <div id="meals-day-view"></div>
   </section>
 
+  <!-- WORKOUT -->
   <section class="section" id="section-workout">
     <div class="day-picker" id="workout-day-picker"></div>
     <div id="workout-day-view"></div>
   </section>
 
+  <!-- BODY MEASUREMENTS -->
+  <section class="section" id="section-body">
+    <div class="section-title">Mjere tijela <span class="count">tjedno</span></div>
+    <div style="font-size:12px; color:var(--text-dim); margin-bottom:12px; padding:0 4px;">Mjerenje radi se ujutro, na prazan WC. Mjeri opušteno (ne uvlači struk).</div>
+    <div class="settings-card" id="body-measure-form">
+      <div class="settings-row">
+        <div class="settings-label">Struk (na pupku)</div>
+        <div style="display:flex; gap:6px; align-items:center;"><input type="number" step="0.5" id="m-waist" class="qty-input" style="width:70px;"><span class="check-meta">cm</span></div>
+      </div>
+      <div class="settings-row">
+        <div class="settings-label">Kukovi (najšire)</div>
+        <div style="display:flex; gap:6px; align-items:center;"><input type="number" step="0.5" id="m-hip" class="qty-input" style="width:70px;"><span class="check-meta">cm</span></div>
+      </div>
+      <div class="settings-row">
+        <div class="settings-label">Dupe (najšire)</div>
+        <div style="display:flex; gap:6px; align-items:center;"><input type="number" step="0.5" id="m-glutes" class="qty-input" style="width:70px;"><span class="check-meta">cm</span></div>
+      </div>
+      <div class="settings-row">
+        <div class="settings-label">Prsa (najšire)</div>
+        <div style="display:flex; gap:6px; align-items:center;"><input type="number" step="0.5" id="m-chest" class="qty-input" style="width:70px;"><span class="check-meta">cm</span></div>
+      </div>
+      <div class="settings-row">
+        <div class="settings-label">Ramena (preko ramena)</div>
+        <div style="display:flex; gap:6px; align-items:center;"><input type="number" step="0.5" id="m-shoulders" class="qty-input" style="width:70px;"><span class="check-meta">cm</span></div>
+      </div>
+      <div class="settings-row">
+        <div class="settings-label">Vrat</div>
+        <div style="display:flex; gap:6px; align-items:center;"><input type="number" step="0.5" id="m-neck" class="qty-input" style="width:70px;"><span class="check-meta">cm</span></div>
+      </div>
+      <div class="settings-row">
+        <div class="settings-label">Biceps (kontrahiran)</div>
+        <div style="display:flex; gap:6px; align-items:center;"><input type="number" step="0.5" id="m-biceps" class="qty-input" style="width:70px;"><span class="check-meta">cm</span></div>
+      </div>
+      <div class="settings-row">
+        <div class="settings-label">Podlaktica</div>
+        <div style="display:flex; gap:6px; align-items:center;"><input type="number" step="0.5" id="m-forearm" class="qty-input" style="width:70px;"><span class="check-meta">cm</span></div>
+      </div>
+      <div class="settings-row">
+        <div class="settings-label">Butina (najšire)</div>
+        <div style="display:flex; gap:6px; align-items:center;"><input type="number" step="0.5" id="m-thigh" class="qty-input" style="width:70px;"><span class="check-meta">cm</span></div>
+      </div>
+      <div class="settings-row">
+        <div class="settings-label">Duljina nogu</div>
+        <div style="display:flex; gap:6px; align-items:center;"><input type="number" step="0.5" id="m-legLength" class="qty-input" style="width:70px;"><span class="check-meta">cm</span></div>
+      </div>
+    </div>
+    <button class="big-btn" id="save-measure-btn">SPREMI MJERE DANAS</button>
+    <div class="section-title">Povijest</div>
+    <div id="measure-history"></div>
+  </section>
+
+  <!-- PHOTOS -->
+  <section class="section" id="section-photos">
+    <div class="section-title">Progress fotke</div>
+    <div style="font-size:12px; color:var(--text-dim); margin-bottom:12px; padding:0 4px;">Slikaj se ujutro, ista poza, isto svjetlo. Idealno: ogledalo, samo gaće, ruke uz tijelo. Bolji indikator napretka od vage.</div>
+    <div class="controls">
+      <button class="btn" id="add-photo-front-btn">+ Front</button>
+      <button class="btn" id="add-photo-side-btn">+ Profil</button>
+      <button class="btn btn-ghost" id="add-photo-back-btn">+ Leđa</button>
+      <input type="file" id="photo-input" accept="image/*" capture="environment" style="display:none;">
+    </div>
+    <div style="font-size:11px; color:var(--text-muted); margin-bottom:12px; padding:0 4px;">⚠ Slike se spremaju lokalno (ne syncaju u cloud zbog veličine). Export ih u backup za prebacit između uređaja.</div>
+    <div class="photo-grid" id="photo-grid"></div>
+  </section>
+
+  <!-- FOOD LIBRARY -->
+  <section class="section" id="section-food">
+    <div style="font-size:12px; color:var(--text-dim); margin-bottom:14px; padding:0 4px;">Biblioteka namirnica. Kalorije i makroi su po jedinici (kg/komad/mjerica). Tvoje vlastite namirnice možeš dodavati na vrhu — onda ih lako odabereš kad dodaješ custom obrok.</div>
+    <button class="big-btn" id="add-food-btn">+ DODAJ NAMIRNICU</button>
+    <div id="food-view"></div>
+  </section>
+
+  <!-- SHOPPING -->
   <section class="section" id="section-shopping">
     <div class="controls">
       <button class="btn" id="shop-week-btn">Tjedna lista</button>
@@ -374,11 +472,13 @@ html, body {
     <div id="shopping-view"></div>
   </section>
 
+  <!-- PRICES -->
   <section class="section" id="section-prices">
-    <div style="font-size:12px; color:var(--text-dim); margin-bottom:14px; padding:0 4px;">Unesi cijene po jedinici. App automatski računa trošak po obroku, po danu, po tjednu.</div>
+    <div style="font-size:12px; color:var(--text-dim); margin-bottom:14px; padding:0 4px;">Unesi cijene po jedinici (kg/komad/mjerica). App računa trošak po obroku, po danu, po tjednu.</div>
     <div id="prices-view"></div>
   </section>
 
+  <!-- STATS -->
   <section class="section" id="section-stats">
     <div class="section-title">14-day pregled</div>
     <div class="chart-card">
@@ -402,7 +502,7 @@ html, body {
         <div class="stat-bar"><div class="stat-bar-fill" id="stat-meals-bar" style="width:0%"></div></div>
       </div>
       <div class="stat-bar-row">
-        <div class="stat-bar-label"><span class="name">Treninzi odrađeni</span><span class="val" id="stat-workouts">0/0</span></div>
+        <div class="stat-bar-label"><span class="name">Vježbe odrađene</span><span class="val" id="stat-workouts">0/0</span></div>
         <div class="stat-bar"><div class="stat-bar-fill" id="stat-workouts-bar" style="width:0%"></div></div>
       </div>
       <div class="stat-bar-row">
@@ -412,6 +512,28 @@ html, body {
       <div class="stat-bar-row">
         <div class="stat-bar-label"><span class="name">Bez alkohola</span><span class="val" id="stat-noalk">0/0</span></div>
         <div class="stat-bar"><div class="stat-bar-fill success" id="stat-noalk-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Kalorije & makroi (prosjek)</div>
+    <div class="stat-block">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px;">KCAL IN / DAN</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:22px;" id="avg-kcal-in">-- kcal</div>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px;">KCAL OUT / DAN</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:22px;" id="avg-kcal-out">-- kcal</div>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px;">PROTEIN / DAN</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:22px;" id="avg-protein">-- g</div>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px;">DEFICIT EST.</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:22px;" id="avg-deficit">-- kcal</div>
+        </div>
       </div>
     </div>
 
@@ -437,14 +559,18 @@ html, body {
       </div>
     </div>
 
+    <div class="section-title">Mjere tijela (od starta)</div>
+    <div class="stat-block" id="measure-summary"></div>
+
     <div class="section-title">Dnevni log</div>
     <div id="daily-log"></div>
   </section>
 
+  <!-- SETTINGS -->
   <section class="section" id="section-settings">
     <div class="sync-setup-card">
       <div class="sync-setup-title">☁ SYNC MOB ↔ KOMP</div>
-      <div style="font-size:12px; color:var(--text); margin-bottom:10px;">Sync radi preko GitHub Gist-a. Treba ti token (5 min setup). Detaljne upute ispod, klik "Kako postaviti".</div>
+      <div style="font-size:12px; color:var(--text); margin-bottom:10px;">Sync radi preko GitHub Gist-a. Treba ti token (5 min setup). Detaljne upute ispod.</div>
       <div style="display:flex; gap:8px;">
         <button class="btn btn-ghost" id="sync-help-btn">Kako postaviti</button>
         <button class="btn" id="sync-now-btn">Sync sad</button>
@@ -458,11 +584,11 @@ html, body {
         <input type="password" id="set-gh-token" class="qty-input" style="width:160px;" placeholder="ghp_...">
       </div>
       <div class="settings-row">
-        <div class="settings-label">Gist ID (auto kad spremiš token)</div>
+        <div class="settings-label">Gist ID</div>
         <input type="text" id="set-gist-id" class="qty-input" style="width:160px;" placeholder="empty">
       </div>
       <div class="settings-row">
-        <div class="settings-label">Auto-sync nakon promjene</div>
+        <div class="settings-label">Auto-sync</div>
         <input type="checkbox" id="set-autosync" style="width:20px; height:20px;">
       </div>
     </div>
@@ -478,6 +604,10 @@ html, body {
         <input type="number" step="0.1" id="set-goal-weight" class="qty-input" style="width:80px;">
       </div>
       <div class="settings-row">
+        <div class="settings-label">TDEE (procjena, kcal)</div>
+        <input type="number" step="50" id="set-tdee" class="qty-input" style="width:80px;">
+      </div>
+      <div class="settings-row">
         <div class="settings-label">Start dijete</div>
         <input type="date" id="set-start-date" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:6px 8px; border-radius:6px; font-family:'JetBrains Mono',monospace; font-size:12px;">
       </div>
@@ -488,9 +618,9 @@ html, body {
     </div>
     <button class="big-btn" id="save-settings-btn">SPREMI POSTAVKE</button>
 
-    <div class="section-title">Backup (file)</div>
+    <div class="section-title">Backup</div>
     <div class="settings-card">
-      <div style="font-size:12px; color:var(--text-dim); margin-bottom:10px;">Manual backup za svaki slučaj.</div>
+      <div style="font-size:12px; color:var(--text-dim); margin-bottom:10px;">Export svih podataka + slika u JSON file.</div>
       <div style="display:flex; gap:8px;">
         <button class="btn" id="export-btn">Export JSON</button>
         <button class="btn btn-ghost" id="import-btn">Import JSON</button>
@@ -506,159 +636,314 @@ html, body {
   </section>
 </div>
 
+<div id="custom-meal-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:300; padding:20px; overflow-y:auto;">
+  <div style="max-width:500px; margin:0 auto; background:var(--bg-card); border:1px solid var(--border-strong); border-radius:16px; padding:24px;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:2px; margin-bottom:4px;">DODAJ OBROK</div>
+    <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:16px;">CUSTOM UNOS</div>
+
+    <div style="display:flex; gap:6px; margin-bottom:16px;">
+      <button class="btn cm-mode-btn active" data-mode="library" style="flex:1;">Biblioteka</button>
+      <button class="btn cm-mode-btn" data-mode="total" style="flex:1; background:transparent; border:1px solid var(--border); color:var(--text-dim);">Brzi unos</button>
+      <button class="btn cm-mode-btn" data-mode="per100" style="flex:1; background:transparent; border:1px solid var(--border); color:var(--text-dim);">Po 100g</button>
+    </div>
+
+    <!-- Library mode -->
+    <div id="cm-library-row" style="display:none;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:4px;">PRETRAŽI NAMIRNICU</div>
+      <input type="text" id="cm-search" placeholder="npr. čokolada, jaja, piletina" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-size:14px; width:100%; margin-bottom:10px;">
+      <div id="cm-search-results" style="max-height:240px; overflow-y:auto; margin-bottom:10px; background:var(--bg-elev); border-radius:8px;"></div>
+      <div id="cm-selected-food" style="display:none; padding:10px 12px; background:var(--accent-bg); border:1px solid var(--accent); border-radius:8px; margin-bottom:10px; font-size:13px;"></div>
+      <div id="cm-qty-row" style="display:none;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:4px;">KOLIČINA</div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <input type="number" id="cm-lib-qty" step="0.01" placeholder="1" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:14px; flex:1;">
+          <span id="cm-lib-unit" style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); min-width:40px;"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manual modes -->
+    <div id="cm-manual-rows" style="display:none;">
+      <div style="display:flex; flex-direction:column; gap:10px;">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:4px;">NAZIV OBROKA</div>
+        <input type="text" id="cm-name" placeholder="npr. Palačinka s nutellom" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-size:14px; width:100%;">
+      </div>
+
+      <div id="cm-per100-row" style="display:none;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:4px;">UKUPNA TEŽINA (g)</div>
+        <input type="number" id="cm-grams" step="1" placeholder="200" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:14px; width:100%;">
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:8px;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:4px;"><span id="cm-kcal-label">KCAL</span></div>
+          <input type="number" id="cm-kcal" step="1" placeholder="350" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:14px; width:100%;">
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:4px;"><span id="cm-protein-label">PROTEIN (g)</span></div>
+          <input type="number" id="cm-protein" step="0.5" placeholder="8" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:14px; width:100%;">
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:4px;"><span id="cm-fat-label">MASTI (g)</span></div>
+          <input type="number" id="cm-fat" step="0.5" placeholder="12" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:14px; width:100%;">
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:4px;"><span id="cm-carbs-label">UH (g)</span></div>
+          <input type="number" id="cm-carbs" step="0.5" placeholder="50" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:14px; width:100%;">
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div id="cm-preview" style="background:var(--bg-elev); border-radius:8px; padding:12px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); display:none; margin-top:10px;">
+      <div style="color:var(--text); margin-bottom:6px;">PREGLED:</div>
+      <div id="cm-preview-text"></div>
+    </div>
+
+    <div style="display:flex; gap:8px; margin-top:20px;">
+      <button class="btn btn-ghost" id="cm-cancel-btn" style="flex:1;">Otkaži</button>
+      <button class="btn" id="cm-save-btn" style="flex:1;">Dodaj</button>
+    </div>
+  </div>
+</div>
+
+<div id="custom-food-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:300; padding:20px; overflow-y:auto;">
+  <div style="max-width:500px; margin:0 auto; background:var(--bg-card); border:1px solid var(--border-strong); border-radius:16px; padding:24px;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:2px; margin-bottom:4px;">DODAJ NAMIRNICU</div>
+    <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:16px;">U BIBLIOTEKU</div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:4px;">NAZIV</div>
+        <input type="text" id="cf-name" placeholder="npr. Mliječna čokolada" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-size:14px; width:100%;">
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:4px;">JEDINICA</div>
+          <select id="cf-unit" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:13px; width:100%;">
+            <option value="100g">100g (uobičajeno s naljepnice)</option>
+            <option value="kg">kg</option>
+            <option value="kom">komad</option>
+            <option value="mjer">mjerica</option>
+            <option value="dcl">dcl (tekućine)</option>
+            <option value="l">litra</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:4px;">CIJENA (€)</div>
+          <input type="number" id="cf-price" step="0.05" placeholder="opcija" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:13px; width:100%;">
+        </div>
+      </div>
+
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-top:4px;">MAKROI PO JEDINICI</div>
+      <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:8px;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); margin-bottom:4px;">KCAL</div>
+          <input type="number" id="cf-kcal" step="1" placeholder="540" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:14px; width:100%;">
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); margin-bottom:4px;">PROTEIN (g)</div>
+          <input type="number" id="cf-protein" step="0.1" placeholder="7" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:14px; width:100%;">
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); margin-bottom:4px;">MASTI (g)</div>
+          <input type="number" id="cf-fat" step="0.1" placeholder="32" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:14px; width:100%;">
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); margin-bottom:4px;">UH (g)</div>
+          <input type="number" id="cf-carbs" step="0.1" placeholder="55" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:14px; width:100%;">
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:4px;">KATEGORIJA</div>
+        <select id="cf-category" style="background:var(--bg-elev); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:13px; width:100%;">
+          <option value="moje">moje (custom)</option>
+          <option value="meso">meso</option>
+          <option value="mliječno">mliječno</option>
+          <option value="povrće">povrće</option>
+          <option value="voće">voće</option>
+          <option value="osnovno">osnovno (kruh, riža, tjestenina)</option>
+          <option value="suplementi">suplementi</option>
+          <option value="slatkiši">slatkiši</option>
+          <option value="piće">piće</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:8px; margin-top:20px;">
+      <button class="btn btn-ghost" id="cf-cancel-btn" style="flex:1;">Otkaži</button>
+      <button class="btn" id="cf-save-btn" style="flex:1;">Spremi</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
-<!-- SYNC HELP MODAL -->
 <div id="sync-help-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:300; padding:20px; overflow-y:auto;">
   <div style="max-width:600px; margin:0 auto; background:var(--bg-card); border:1px solid var(--border-strong); border-radius:16px; padding:24px;">
     <div style="font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:2px; margin-bottom:16px;">KAKO POSTAVITI SYNC</div>
     <ol style="padding-left:20px; line-height:1.8; font-size:14px;">
-      <li>Idi na <a href="https://github.com/settings/tokens/new?description=BrunoCutTracker&scopes=gist" target="_blank" style="color:var(--accent);">github.com/settings/tokens/new</a> (već je predispunjeno)</li>
-      <li>Pod "Expiration" izaberi <strong>"No expiration"</strong> (ili 90 dana)</li>
-      <li>Provjeri da je <strong>"gist"</strong> checkbox uključen</li>
-      <li>Klikni <strong>"Generate token"</strong> na dnu</li>
-      <li>Kopiraj token (počinje s <code>ghp_</code>)</li>
-      <li>Vrati se u app → Setup tab → zalijepi token u "GitHub token"</li>
-      <li>Klikni <strong>"SPREMI POSTAVKE"</strong></li>
-      <li>App će automatski napraviti private Gist i sve syncat</li>
-      <li>Na drugom uređaju: otvori isti HTML, unesi <strong>isti token</strong> + <strong>isti Gist ID</strong></li>
+      <li>Idi na <a href="https://github.com/settings/tokens/new?description=BrunoCutTracker&scopes=gist" target="_blank" style="color:var(--accent);">github.com/settings/tokens/new</a></li>
+      <li>Expiration: <strong>No expiration</strong></li>
+      <li>Označi samo <strong>gist</strong> checkbox</li>
+      <li>Generate token → kopiraj (počinje s <code>ghp_</code>)</li>
+      <li>Vrati se → zalijepi u "GitHub token" → SPREMI POSTAVKE</li>
+      <li>App automatski kreira private Gist</li>
+      <li>Na drugom uređaju: isti token + isti Gist ID</li>
     </ol>
     <div style="margin-top:20px; padding:12px; background:var(--bg-elev); border-radius:8px; font-size:12px; color:var(--text-dim);">
-      <strong style="color:var(--text);">Sigurnost:</strong> Token se sprema samo lokalno u tvoj browser. Gist je private (samo ti ga vidiš). Ima samo "gist" permission, ne može pristupit ničemu drugom na tvom GitHub računu.
+      <strong style="color:var(--text);">Pažnja:</strong> Slike se NE syncaju kroz Gist (prevelike). Mjere tijela i sve ostalo se syncaju.
     </div>
-    <button class="btn" style="margin-top:16px; width:100%;" onclick="document.getElementById('sync-help-modal').style.display='none'">Zatvori</button>
+    <button class="btn" style="margin-top:16px; width:100%;" id="sync-help-close-btn">Zatvori</button>
   </div>
 </div>
-
 <script>
-// ============================================
-// SAFE INIT - all code wrapped in try/catch
-// ============================================
 (function() {
 'use strict';
 
 // ============================================
-// PLAN DATA
+// PLAN DATA - with nutrition macros
 // ============================================
+// All ingredients: kcal/protein/fat/carbs per unit
 var PLAN = {
   ingredients: {
-    'pileca_prsa':      { name: 'Pileća prsa', unit: 'kg', defaultPrice: 6.5, category: 'meso' },
-    'juneci_but':       { name: 'Juneći but', unit: 'kg', defaultPrice: 14.0, category: 'meso' },
-    'svinjska_ledja':   { name: 'Svinjska leđa', unit: 'kg', defaultPrice: 9.0, category: 'meso' },
-    'tuna':             { name: 'Tuna (konzerva 80g)', unit: 'kom', defaultPrice: 1.5, category: 'meso' },
-    'jaja':             { name: 'Jaja', unit: 'kom', defaultPrice: 0.25, category: 'mliječno' },
-    'jetrica':          { name: 'Pileća jetrica', unit: 'kg', defaultPrice: 4.5, category: 'meso' },
-    'whey':             { name: 'Whey protein (mjerica)', unit: 'mjer', defaultPrice: 0.8, category: 'suplementi' },
-    'svjezi_sir':       { name: 'Svježi sir', unit: 'kg', defaultPrice: 6.0, category: 'mliječno' },
-    'krumpir':          { name: 'Krumpir', unit: 'kg', defaultPrice: 1.0, category: 'povrće' },
-    'riza':             { name: 'Riža', unit: 'kg', defaultPrice: 2.0, category: 'osnovno' },
-    'tortilja':         { name: 'Tortilja', unit: 'kom', defaultPrice: 0.4, category: 'osnovno' },
-    'salata':           { name: 'Salata', unit: 'kom', defaultPrice: 1.5, category: 'povrće' },
-    'paprika':          { name: 'Paprika', unit: 'kom', defaultPrice: 0.6, category: 'povrće' },
-    'tikvica':          { name: 'Tikvica', unit: 'kom', defaultPrice: 0.8, category: 'povrće' },
-    'krastavac':        { name: 'Krastavac', unit: 'kom', defaultPrice: 0.7, category: 'povrće' },
-    'brokula':          { name: 'Brokula', unit: 'kg', defaultPrice: 3.0, category: 'povrće' },
+    'pileca_prsa':      { name: 'Pileća prsa', unit: 'kg', defaultPrice: 6.5, category: 'meso',
+                          kcal: 1650, protein: 310, fat: 36, carbs: 0 },
+    'juneci_but':       { name: 'Juneći but', unit: 'kg', defaultPrice: 14.0, category: 'meso',
+                          kcal: 1900, protein: 260, fat: 95, carbs: 0 },
+    'svinjska_ledja':   { name: 'Svinjska leđa', unit: 'kg', defaultPrice: 9.0, category: 'meso',
+                          kcal: 2400, protein: 230, fat: 160, carbs: 0 },
+    'tuna':             { name: 'Tuna (konzerva 80g)', unit: 'kom', defaultPrice: 1.5, category: 'meso',
+                          kcal: 95, protein: 21, fat: 1, carbs: 0 },
+    'jaja':             { name: 'Jaja', unit: 'kom', defaultPrice: 0.25, category: 'mliječno',
+                          kcal: 70, protein: 6, fat: 5, carbs: 0.5 },
+    'jetrica':          { name: 'Pileća jetrica', unit: 'kg', defaultPrice: 4.5, category: 'meso',
+                          kcal: 1190, protein: 170, fat: 47, carbs: 9 },
+    'whey':             { name: 'Whey protein (mjerica 30g)', unit: 'mjer', defaultPrice: 0.8, category: 'suplementi',
+                          kcal: 120, protein: 24, fat: 1.5, carbs: 3 },
+    'svjezi_sir':       { name: 'Svježi sir', unit: 'kg', defaultPrice: 6.0, category: 'mliječno',
+                          kcal: 980, protein: 110, fat: 45, carbs: 35 },
+    'krumpir':          { name: 'Krumpir', unit: 'kg', defaultPrice: 1.0, category: 'povrće',
+                          kcal: 770, protein: 20, fat: 1, carbs: 170 },
+    'riza':             { name: 'Riža (suha)', unit: 'kg', defaultPrice: 2.0, category: 'osnovno',
+                          kcal: 3650, protein: 70, fat: 6, carbs: 800 },
+    'tortilja':         { name: 'Tortilja', unit: 'kom', defaultPrice: 0.4, category: 'osnovno',
+                          kcal: 150, protein: 4, fat: 4, carbs: 25 },
+    'salata':           { name: 'Salata', unit: 'kom', defaultPrice: 1.5, category: 'povrće',
+                          kcal: 30, protein: 2, fat: 0, carbs: 6 },
+    'paprika':          { name: 'Paprika', unit: 'kom', defaultPrice: 0.6, category: 'povrće',
+                          kcal: 30, protein: 1, fat: 0, carbs: 7 },
+    'tikvica':          { name: 'Tikvica', unit: 'kom', defaultPrice: 0.8, category: 'povrće',
+                          kcal: 35, protein: 2, fat: 1, carbs: 7 },
+    'krastavac':        { name: 'Krastavac', unit: 'kom', defaultPrice: 0.7, category: 'povrće',
+                          kcal: 20, protein: 1, fat: 0, carbs: 4 },
+    'brokula':          { name: 'Brokula', unit: 'kg', defaultPrice: 3.0, category: 'povrće',
+                          kcal: 340, protein: 28, fat: 4, carbs: 70 },
   },
   meals: {
-    1: { label: 'PON', kcal: 1850, items: [
-      { id: 'pon1', name: 'Obrok 1', kcal: 850, components: [
+    1: { label: 'PON', items: [
+      { id: 'pon1', name: 'Obrok 1', components: [
         { ing: 'pileca_prsa', qty: 0.4 }, { ing: 'krumpir', qty: 0.25 }, { ing: 'salata', qty: 0.5 },
       ]},
-      { id: 'pon2', name: 'Obrok 2', kcal: 1000, components: [
+      { id: 'pon2', name: 'Obrok 2', components: [
         { ing: 'juneci_but', qty: 0.3 }, { ing: 'tortilja', qty: 1 }, { ing: 'whey', qty: 1 },
       ]},
     ]},
-    2: { label: 'UTO', kcal: 1650, items: [
-      { id: 'uto1', name: 'Obrok 1', kcal: 600, components: [
+    2: { label: 'UTO', items: [
+      { id: 'uto1', name: 'Obrok 1', components: [
         { ing: 'tuna', qty: 2 }, { ing: 'svjezi_sir', qty: 0.3 },
       ]},
-      { id: 'uto2', name: 'Obrok 2', kcal: 1050, components: [
+      { id: 'uto2', name: 'Obrok 2', components: [
         { ing: 'svinjska_ledja', qty: 0.4 }, { ing: 'krumpir', qty: 0.2 }, { ing: 'paprika', qty: 1 },
       ]},
     ]},
-    3: { label: 'SRI', kcal: 1850, items: [
-      { id: 'sri1', name: 'Obrok 1', kcal: 950, components: [
+    3: { label: 'SRI', items: [
+      { id: 'sri1', name: 'Obrok 1', components: [
         { ing: 'pileca_prsa', qty: 0.5 }, { ing: 'riza', qty: 0.1 },
       ]},
-      { id: 'sri2', name: 'Obrok 2', kcal: 900, components: [
+      { id: 'sri2', name: 'Obrok 2', components: [
         { ing: 'juneci_but', qty: 0.3 }, { ing: 'whey', qty: 1 },
       ]},
     ]},
-    4: { label: 'ČET', kcal: 1600, items: [
-      { id: 'cet1', name: 'Obrok 1', kcal: 750, components: [
+    4: { label: 'ČET', items: [
+      { id: 'cet1', name: 'Obrok 1', components: [
         { ing: 'jaja', qty: 5 }, { ing: 'jetrica', qty: 0.25 },
       ]},
-      { id: 'cet2', name: 'Obrok 2', kcal: 850, components: [
+      { id: 'cet2', name: 'Obrok 2', components: [
         { ing: 'pileca_prsa', qty: 0.35 }, { ing: 'salata', qty: 0.5 },
       ]},
     ]},
-    5: { label: 'PET', kcal: 1800, items: [
-      { id: 'pet1', name: 'Obrok 1', kcal: 850, components: [
+    5: { label: 'PET', items: [
+      { id: 'pet1', name: 'Obrok 1', components: [
         { ing: 'pileca_prsa', qty: 0.4 }, { ing: 'krumpir', qty: 0.25 },
       ]},
-      { id: 'pet2', name: 'Obrok 2', kcal: 950, components: [
+      { id: 'pet2', name: 'Obrok 2', components: [
         { ing: 'svinjska_ledja', qty: 0.35 }, { ing: 'whey', qty: 1 },
       ]},
     ]},
-    6: { label: 'SUB', kcal: 1850, items: [
-      { id: 'sub1', name: 'Obrok 1', kcal: 850, components: [
+    6: { label: 'SUB', items: [
+      { id: 'sub1', name: 'Obrok 1', components: [
         { ing: 'juneci_but', qty: 0.3 }, { ing: 'riza', qty: 0.1 },
       ]},
-      { id: 'sub2', name: 'Obrok 2', kcal: 1000, components: [
+      { id: 'sub2', name: 'Obrok 2', components: [
         { ing: 'pileca_prsa', qty: 0.4 }, { ing: 'brokula', qty: 0.2 },
       ]},
     ]},
-    7: { label: 'NED', kcal: 1550, items: [
-      { id: 'ned1', name: 'Obrok 1', kcal: 600, components: [
+    7: { label: 'NED', items: [
+      { id: 'ned1', name: 'Obrok 1', components: [
         { ing: 'tuna', qty: 2 }, { ing: 'svjezi_sir', qty: 0.3 },
       ]},
-      { id: 'ned2', name: 'Obrok 2', kcal: 950, components: [
+      { id: 'ned2', name: 'Obrok 2', components: [
         { ing: 'pileca_prsa', qty: 0.3 }, { ing: 'salata', qty: 0.5 },
       ]},
     ]},
   },
+  // workouts with kcal burn estimates
   workouts: {
-    1: { label: 'PON', type: 'PUSH', exercises: [
-      { name: 'Propadanja', sets: 4, reps: 'max' },
-      { name: 'Sklekovi', sets: 4, reps: 'max' },
-      { name: 'Skull crushers', sets: 4, reps: '12' },
-      { name: 'Vrat gore/dolje', sets: 3, reps: '20' },
-      { name: 'Vrat lijevo/desno', sets: 3, reps: '20' },
-      { name: 'Čučnjevi', sets: 4, reps: '20' },
+    1: { label: 'PON', type: 'PUSH', kcalBurn: 280, exercises: [
+      { id: 'pon-1', name: 'Propadanja', sets: 4, reps: 'max', kcal: 50 },
+      { id: 'pon-2', name: 'Sklekovi', sets: 4, reps: 'max', kcal: 40 },
+      { id: 'pon-3', name: 'Skull crushers', sets: 4, reps: '12', kcal: 35 },
+      { id: 'pon-4', name: 'Vrat gore/dolje', sets: 3, reps: '20', kcal: 15 },
+      { id: 'pon-5', name: 'Vrat lijevo/desno', sets: 3, reps: '20', kcal: 15 },
+      { id: 'pon-6', name: 'Čučnjevi', sets: 4, reps: '20', kcal: 125 },
     ]},
-    2: { label: 'UTO', type: 'CARDIO + ABS', exercises: [
-      { name: 'Preskakanje užeta ILI trčanje', sets: 1, reps: '20-30 min' },
-      { name: 'Abs rutina (5 min)', sets: 1, reps: 'full' },
+    2: { label: 'UTO', type: 'CARDIO + ABS', kcalBurn: 350, exercises: [
+      { id: 'uto-1', name: 'Preskakanje užeta ILI trčanje', sets: 1, reps: '20-30 min', kcal: 300 },
+      { id: 'uto-2', name: 'Abs rutina', sets: 1, reps: '5 min', kcal: 50 },
     ]},
-    3: { label: 'SRI', type: 'PULL', exercises: [
-      { name: 'Zgibovi', sets: 5, reps: 'max' },
-      { name: 'Riža u kanti', sets: 4, reps: '12-15' },
-      { name: 'Skull crushers', sets: 3, reps: '12' },
-      { name: 'Vrat gore/dolje', sets: 3, reps: '20' },
-      { name: 'Vrat lijevo/desno', sets: 3, reps: '20' },
-      { name: 'Čučnjevi', sets: 4, reps: '20' },
+    3: { label: 'SRI', type: 'PULL', kcalBurn: 280, exercises: [
+      { id: 'sri-1', name: 'Zgibovi', sets: 5, reps: 'max', kcal: 60 },
+      { id: 'sri-2', name: 'Riža u kanti', sets: 4, reps: '12-15', kcal: 35 },
+      { id: 'sri-3', name: 'Skull crushers', sets: 3, reps: '12', kcal: 25 },
+      { id: 'sri-4', name: 'Vrat gore/dolje', sets: 3, reps: '20', kcal: 15 },
+      { id: 'sri-5', name: 'Vrat lijevo/desno', sets: 3, reps: '20', kcal: 15 },
+      { id: 'sri-6', name: 'Čučnjevi', sets: 4, reps: '20', kcal: 130 },
     ]},
-    4: { label: 'ČET', type: 'CARDIO + ABS', exercises: [
-      { name: 'Trčanje ILI uže', sets: 1, reps: '25-35 min' },
-      { name: 'Abs rutina (5 min)', sets: 1, reps: 'full' },
+    4: { label: 'ČET', type: 'CARDIO + ABS', kcalBurn: 400, exercises: [
+      { id: 'cet-1', name: 'Trčanje ILI uže', sets: 1, reps: '25-35 min', kcal: 350 },
+      { id: 'cet-2', name: 'Abs rutina', sets: 1, reps: '5 min', kcal: 50 },
     ]},
-    5: { label: 'PET', type: 'FULL BODY', exercises: [
-      { name: 'Zgibovi', sets: 4, reps: 'max' },
-      { name: 'Propadanja', sets: 4, reps: 'max' },
-      { name: 'Sklekovi', sets: 4, reps: 'max' },
-      { name: 'Riža u kanti', sets: 4, reps: '12' },
-      { name: 'Skull crushers', sets: 4, reps: '12' },
-      { name: 'Čučnjevi', sets: 5, reps: '20' },
-      { name: 'Vrat gore/dolje', sets: 3, reps: '20' },
-      { name: 'Vrat lijevo/desno', sets: 3, reps: '20' },
+    5: { label: 'PET', type: 'FULL BODY', kcalBurn: 400, exercises: [
+      { id: 'pet-1', name: 'Zgibovi', sets: 4, reps: 'max', kcal: 50 },
+      { id: 'pet-2', name: 'Propadanja', sets: 4, reps: 'max', kcal: 50 },
+      { id: 'pet-3', name: 'Sklekovi', sets: 4, reps: 'max', kcal: 40 },
+      { id: 'pet-4', name: 'Riža u kanti', sets: 4, reps: '12', kcal: 30 },
+      { id: 'pet-5', name: 'Skull crushers', sets: 4, reps: '12', kcal: 30 },
+      { id: 'pet-6', name: 'Čučnjevi', sets: 5, reps: '20', kcal: 160 },
+      { id: 'pet-7', name: 'Vrat gore/dolje', sets: 3, reps: '20', kcal: 20 },
+      { id: 'pet-8', name: 'Vrat lijevo/desno', sets: 3, reps: '20', kcal: 20 },
     ]},
-    6: { label: 'SUB', type: 'AKTIVNI DAN', exercises: [
-      { name: 'Hodanje s curom', sets: 1, reps: '60+ min' },
-      { name: 'Istezanje', sets: 1, reps: '15 min' },
+    6: { label: 'SUB', type: 'AKTIVNI DAN', kcalBurn: 250, exercises: [
+      { id: 'sub-1', name: 'Hodanje s curom', sets: 1, reps: '60+ min', kcal: 220 },
+      { id: 'sub-2', name: 'Istezanje', sets: 1, reps: '15 min', kcal: 30 },
     ]},
-    7: { label: 'NED', type: 'ODMOR', exercises: [
-      { name: 'Lagana šetnja', sets: 1, reps: '30 min' },
-      { name: 'Oporavak', sets: 1, reps: 'rest' },
+    7: { label: 'NED', type: 'ODMOR', kcalBurn: 100, exercises: [
+      { id: 'ned-1', name: 'Lagana šetnja', sets: 1, reps: '30 min', kcal: 100 },
+      { id: 'ned-2', name: 'Oporavak', sets: 1, reps: 'rest', kcal: 0 },
     ]},
   },
   dailyChecks: [
@@ -666,15 +951,30 @@ var PLAN = {
     { id: 'noalk', label: 'Bez alkohola' },
     { id: 'nocheat', label: 'Bez cheat meala' },
     { id: 'sleep', label: '7h+ sna' },
-    { id: 'walk', label: 'Hodanje (10k+ koraka)' },
+    { id: 'walk', label: '10k+ koraka' },
   ],
+};
+
+// Compute target kcal per day (sum of all components at default qty)
+PLAN.dayTargetKcal = function(dayIdx) {
+  var meals = PLAN.meals[dayIdx];
+  var total = 0;
+  meals.items.forEach(function(m) {
+    m.components.forEach(function(c) {
+      var ing = PLAN.ingredients[c.ing];
+      total += ing.kcal * c.qty;
+    });
+  });
+  return Math.round(total);
 };
 
 // ============================================
 // STATE
 // ============================================
-var STORAGE_KEY = 'bruno_cut_v2';
+var STORAGE_KEY = 'bruno_cut_v5';
+var PHOTOS_KEY = 'bruno_cut_photos_v1';
 var state;
+var photos = [];
 
 function defaultState() {
   var today = new Date();
@@ -684,10 +984,48 @@ function defaultState() {
   Object.keys(PLAN.ingredients).forEach(function(k) {
     prices[k] = PLAN.ingredients[k].defaultPrice;
   });
+
+  // Pre-populated historical body measurements
+  // 6 mjera kroz vrijeme + danas anchor
+  // Bruno: zadnje 3 oko Uskrsa 2026 (5.4.2026)
+  // Distribuirat ću 6 mjera od ~studeni 2025 do svibanj 2026
+  var preMeasures = {};
+  var measureDates = ['2025-11-15', '2025-12-20', '2026-02-05', '2026-04-03', '2026-04-05', '2026-04-28'];
+  // Vrijednosti po stupcu = mapping na pojedini datum
+  // Struk:    93, 92, 97, 94, 95, 94
+  // Kukovi:   -, 99, 105, 103, 102, 100
+  // Vrat:     42, 45, 42, 46, 44, 43
+  // Ramena:   -, 126, 130, 131, 127, 128  (5 vrijednosti = od 2.)
+  // Prsa:     100, 114, 113, 109, 114, 114
+  // Biceps:   40, 41, 41, 42, 43, 44
+  // Podlakt:  31, 32, 32, 33, 32, 32
+  // Duljina:  93 (samo zadnja)
+  // Dupe:     117, 112, 118, 118, 119, 116
+  var dataMap = {
+    waist:     [93, 92, 97, 94, 95, 94],
+    hip:       [null, 99, 105, 103, 102, 100],
+    neck:      [42, 45, 42, 46, 44, 43],
+    shoulders: [null, 126, 130, 131, 127, 128],
+    chest:     [100, 114, 113, 109, 114, 114],
+    biceps:    [40, 41, 41, 42, 43, 44],
+    forearm:   [31, 32, 32, 33, 32, 32],
+    legLength: [null, null, null, null, null, 93],
+    glutes:    [117, 112, 118, 118, 119, 116],
+  };
+  measureDates.forEach(function(ds, idx) {
+    var entry = {};
+    Object.keys(dataMap).forEach(function(key) {
+      var v = dataMap[key][idx];
+      if (v !== null && v !== undefined) entry[key] = v;
+    });
+    if (Object.keys(entry).length > 0) preMeasures[ds] = entry;
+  });
+
   return {
     settings: {
       startWeight: 94,
       goalWeight: 88,
+      tdee: 2500,
       startDate: dateStr(today),
       endDate: dateStr(end),
       ghToken: '',
@@ -695,10 +1033,16 @@ function defaultState() {
       autoSync: false,
     },
     weights: {},
-    meals: {},
-    workoutDays: {},
+    mealComps: {},
+    exercises: {},
     checks: {},
     prices: prices,
+    measures: preMeasures,
+    // customMeals: { 'YYYY-MM-DD': [{ id, name, kcal, protein, fat, carbs }] }
+    customMeals: {},
+    // customFoods: user-added items to library
+    // { 'cf_xxx': { name, unit, kcal, protein, fat, carbs, category, price } }
+    customFoods: {},
     lastSync: null,
   };
 }
@@ -708,18 +1052,95 @@ function loadState() {
     var raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
       var s = defaultState();
+      // Try migrations from newest to oldest
+      var migrated = false;
+      var v4raw = localStorage.getItem('bruno_cut_v4');
+      if (v4raw && !migrated) {
+        try {
+          var old4 = JSON.parse(v4raw);
+          s.settings = Object.assign(s.settings, old4.settings || {});
+          s.weights = old4.weights || {};
+          s.mealComps = old4.mealComps || {};
+          s.exercises = old4.exercises || {};
+          s.checks = old4.checks || {};
+          s.prices = Object.assign(s.prices, old4.prices || {});
+          s.measures = Object.assign({}, s.measures, old4.measures || {});
+          s.customMeals = old4.customMeals || {};
+          s.lastSync = old4.lastSync || null;
+          migrated = true;
+        } catch (e) { console.warn('v4 migration failed', e); }
+      }
+      var v3raw = localStorage.getItem('bruno_cut_v3');
+      if (v3raw && !migrated) {
+        try {
+          var old3 = JSON.parse(v3raw);
+          s.settings = Object.assign(s.settings, old3.settings || {});
+          s.weights = old3.weights || {};
+          s.mealComps = old3.mealComps || {};
+          s.exercises = old3.exercises || {};
+          s.checks = old3.checks || {};
+          s.prices = Object.assign(s.prices, old3.prices || {});
+          s.measures = Object.assign({}, s.measures, old3.measures || {});
+          s.lastSync = old3.lastSync || null;
+          migrated = true;
+        } catch (e) { console.warn('v3 migration failed', e); }
+      }
+      var v2raw = localStorage.getItem('bruno_cut_v2');
+      if (v2raw && !migrated) {
+        try {
+          var old2 = JSON.parse(v2raw);
+          s.settings = Object.assign(s.settings, old2.settings || {});
+          s.weights = old2.weights || {};
+          s.checks = old2.checks || {};
+          s.prices = Object.assign(s.prices, old2.prices || {});
+          s.lastSync = old2.lastSync || null;
+          if (old2.meals) {
+            Object.keys(old2.meals).forEach(function(k) {
+              if (!old2.meals[k]) return;
+              var parts = k.match(/^(\d{4}-\d{2}-\d{2})-(.+)$/);
+              if (!parts) return;
+              var ds = parts[1];
+              var mealId = parts[2];
+              for (var d = 1; d <= 7; d++) {
+                var m = PLAN.meals[d].items.find(function(x) { return x.id === mealId; });
+                if (m) {
+                  m.components.forEach(function(c) {
+                    s.mealComps[ds + '-' + mealId + '-' + c.ing] = { done: true, qty: c.qty };
+                  });
+                  break;
+                }
+              }
+            });
+          }
+          if (old2.workoutDays) {
+            Object.keys(old2.workoutDays).forEach(function(k) {
+              if (!old2.workoutDays[k]) return;
+              var m = k.match(/^(\d{4}-\d{2}-\d{2})-workout$/);
+              if (!m) return;
+              var ds = m[1];
+              var dow = dayOfWeek(ds);
+              PLAN.workouts[dow].exercises.forEach(function(ex) {
+                s.exercises[ds + '-' + ex.id] = true;
+              });
+            });
+          }
+          migrated = true;
+        } catch (e) { console.warn('v2 migration failed', e); }
+      }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
       return s;
     }
     var parsed = JSON.parse(raw);
-    // ensure all fields exist (migration safety)
     var def = defaultState();
     parsed.settings = Object.assign({}, def.settings, parsed.settings || {});
     parsed.weights = parsed.weights || {};
-    parsed.meals = parsed.meals || {};
-    parsed.workoutDays = parsed.workoutDays || {};
+    parsed.mealComps = parsed.mealComps || {};
+    parsed.exercises = parsed.exercises || {};
     parsed.checks = parsed.checks || {};
     parsed.prices = Object.assign({}, def.prices, parsed.prices || {});
+    parsed.measures = parsed.measures || {};
+    parsed.customMeals = parsed.customMeals || {};
+    parsed.customFoods = parsed.customFoods || {};
     return parsed;
   } catch (e) {
     console.error('loadState error', e);
@@ -731,12 +1152,25 @@ function saveState() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     if (state.settings.autoSync && state.settings.ghToken && state.settings.gistId) {
-      // debounced sync
       clearTimeout(window._syncTimer);
       window._syncTimer = setTimeout(function() { syncUp(true); }, 2000);
     }
   } catch (e) {
     console.error('saveState error', e);
+  }
+}
+
+function loadPhotos() {
+  try {
+    var raw = localStorage.getItem(PHOTOS_KEY);
+    if (raw) photos = JSON.parse(raw);
+  } catch (e) { photos = []; }
+}
+function savePhotos() {
+  try { localStorage.setItem(PHOTOS_KEY, JSON.stringify(photos)); }
+  catch (e) {
+    console.error('savePhotos error', e);
+    toast('Greška: nema mjesta za sliku');
   }
 }
 
@@ -771,28 +1205,115 @@ function formatDateShort(dStr) {
   var d = new Date(dStr + 'T00:00:00');
   return d.toLocaleDateString('hr-HR', { day: '2-digit', month: '2-digit' });
 }
+// ============================================
+// COMPONENT HELPERS
+// ============================================
+function compKey(ds, mealId, ing) { return ds + '-' + mealId + '-' + ing; }
+function exerKey(ds, exId) { return ds + '-' + exId; }
 
-// ============================================
-// COST
-// ============================================
-function mealCost(mealItem) {
+// Get actual qty for a component on a date (returns default if never edited)
+function getCompQty(ds, mealId, comp) {
+  var key = compKey(ds, mealId, comp.ing);
+  var state_comp = state.mealComps[key];
+  if (state_comp && typeof state_comp.qty === 'number') return state_comp.qty;
+  return comp.qty;
+}
+// Is component checked as eaten?
+function isCompDone(ds, mealId, ing) {
+  var key = compKey(ds, mealId, ing);
+  return !!(state.mealComps[key] && state.mealComps[key].done);
+}
+
+// Compute macros for one meal on a specific date based on what's actually eaten
+function mealMacros(ds, meal) {
+  var k = { kcal: 0, protein: 0, fat: 0, carbs: 0, cost: 0 };
+  meal.components.forEach(function(c) {
+    if (!isCompDone(ds, meal.id, c.ing)) return;
+    var qty = getCompQty(ds, meal.id, c);
+    var ing = PLAN.ingredients[c.ing];
+    k.kcal += ing.kcal * qty;
+    k.protein += ing.protein * qty;
+    k.fat += ing.fat * qty;
+    k.carbs += ing.carbs * qty;
+    k.cost += (state.prices[c.ing] || ing.defaultPrice) * qty;
+  });
+  return k;
+}
+
+// Compute default-planned macros for a meal (regardless of done state)
+function mealPlanned(meal) {
+  var k = { kcal: 0, protein: 0, fat: 0, carbs: 0, cost: 0 };
+  meal.components.forEach(function(c) {
+    var ing = PLAN.ingredients[c.ing];
+    k.kcal += ing.kcal * c.qty;
+    k.protein += ing.protein * c.qty;
+    k.fat += ing.fat * c.qty;
+    k.carbs += ing.carbs * c.qty;
+    k.cost += (state.prices[c.ing] || ing.defaultPrice) * c.qty;
+  });
+  return k;
+}
+
+// Day totals based on what's been eaten (plan + custom)
+function dayActualMacros(ds) {
+  var dow = dayOfWeek(ds);
+  var meals = PLAN.meals[dow];
+  var k = { kcal: 0, protein: 0, fat: 0, carbs: 0, cost: 0 };
+  meals.items.forEach(function(m) {
+    var mk = mealMacros(ds, m);
+    k.kcal += mk.kcal;
+    k.protein += mk.protein;
+    k.fat += mk.fat;
+    k.carbs += mk.carbs;
+    k.cost += mk.cost;
+  });
+  // add custom meals for the day
+  var customs = state.customMeals[ds] || [];
+  customs.forEach(function(cm) {
+    if (cm.done === false) return; // skip uneaten
+    k.kcal += cm.kcal || 0;
+    k.protein += cm.protein || 0;
+    k.fat += cm.fat || 0;
+    k.carbs += cm.carbs || 0;
+    k.cost += cm.cost || 0;
+  });
+  return k;
+}
+
+// Day planned (target) macros
+function dayPlannedMacros(dayIdx) {
+  var meals = PLAN.meals[dayIdx];
+  var k = { kcal: 0, protein: 0, fat: 0, carbs: 0, cost: 0 };
+  meals.items.forEach(function(m) {
+    var mk = mealPlanned(m);
+    k.kcal += mk.kcal;
+    k.protein += mk.protein;
+    k.fat += mk.fat;
+    k.carbs += mk.carbs;
+    k.cost += mk.cost;
+  });
+  return k;
+}
+
+// Exercises - kcal burn for a given date
+function dayKcalBurn(ds) {
+  var dow = dayOfWeek(ds);
+  var workout = PLAN.workouts[dow];
   var total = 0;
-  mealItem.components.forEach(function(c) {
-    var price = state.prices[c.ing];
-    if (price === undefined) price = PLAN.ingredients[c.ing].defaultPrice;
-    total += price * c.qty;
+  workout.exercises.forEach(function(ex) {
+    if (state.exercises[exerKey(ds, ex.id)]) total += ex.kcal;
   });
   return total;
 }
-function dayCost(dayIdx) {
-  var meals = PLAN.meals[dayIdx];
-  if (!meals) return 0;
-  return meals.items.reduce(function(sum, m) { return sum + mealCost(m); }, 0);
-}
-function weekCost() {
-  var total = 0;
-  for (var i = 1; i <= 7; i++) total += dayCost(i);
-  return total;
+
+function dayExercisesDone(ds) {
+  var dow = dayOfWeek(ds);
+  var workout = PLAN.workouts[dow];
+  var done = 0;
+  workout.exercises.forEach(function(ex) {
+    if (state.exercises[exerKey(ds, ex.id)]) done++;
+  });
+  return { done: done, total: workout.exercises.length };
 }
 
 // ============================================
@@ -811,11 +1332,14 @@ function calcStreak() {
     var d = new Date(today);
     d.setDate(today.getDate() - i);
     var ds = dateStr(d);
-    var hasMeal = Object.keys(state.meals).some(function(k) {
-      return k.indexOf(ds) === 0 && state.meals[k];
+    var dow = dayOfWeek(ds);
+    var hasMeal = PLAN.meals[dow].items.some(function(m) {
+      return m.components.some(function(c) { return isCompDone(ds, m.id, c.ing); });
     });
-    var hasWorkout = !!state.workoutDays[ds + '-workout'];
-    if (hasMeal || hasWorkout) streak++;
+    var hasEx = PLAN.workouts[dow].exercises.some(function(ex) {
+      return !!state.exercises[exerKey(ds, ex.id)];
+    });
+    if (hasMeal || hasEx) streak++;
     else if (i > 0) break;
   }
   return streak;
@@ -827,37 +1351,46 @@ function calcConsistency() {
   var today = new Date(todayStr() + 'T00:00:00');
   var daysPassed = Math.max(1, Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1);
   var capped = Math.min(14, daysPassed);
-  var expected = 0, done = 0;
+  var expectedComps = 0, doneComps = 0;
+  var expectedEx = 0, doneEx = 0;
   for (var i = 0; i < capped; i++) {
     var d = new Date(start);
     d.setDate(start.getDate() + i);
     var ds = dateStr(d);
     var dow = dayOfWeek(ds);
-    var meals = PLAN.meals[dow].items;
-    expected += meals.length + 1;
-    meals.forEach(function(m) {
-      if (state.meals[ds + '-' + m.id]) done++;
+    PLAN.meals[dow].items.forEach(function(m) {
+      m.components.forEach(function(c) {
+        expectedComps++;
+        if (isCompDone(ds, m.id, c.ing)) doneComps++;
+      });
     });
-    if (state.workoutDays[ds + '-workout']) done++;
+    PLAN.workouts[dow].exercises.forEach(function(ex) {
+      expectedEx++;
+      if (state.exercises[exerKey(ds, ex.id)]) doneEx++;
+    });
   }
-  return expected ? Math.round((done / expected) * 100) : 0;
+  var total = expectedComps + expectedEx;
+  var done = doneComps + doneEx;
+  return total ? Math.round((done / total) * 100) : 0;
 }
 
 function calcTotalCost() {
   var total = 0;
-  Object.keys(state.meals).forEach(function(key) {
-    if (!state.meals[key]) return;
-    var mealId = key.substring(11);
-    for (var d = 1; d <= 7; d++) {
-      var m = PLAN.meals[d].items.find(function(x) { return x.id === mealId; });
-      if (m) { total += mealCost(m); break; }
-    }
-  });
+  if (!state.settings.startDate) return 0;
+  var start = new Date(state.settings.startDate + 'T00:00:00');
+  var today = new Date(todayStr() + 'T00:00:00');
+  var daysPassed = Math.max(1, Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1);
+  for (var i = 0; i < Math.min(14, daysPassed); i++) {
+    var d = new Date(start);
+    d.setDate(start.getDate() + i);
+    var ds = dateStr(d);
+    total += dayActualMacros(ds).cost;
+  }
   return total;
 }
 
 // ============================================
-// RENDER: TODAY
+// TODAY RENDER
 // ============================================
 function renderToday() {
   try {
@@ -886,35 +1419,101 @@ function renderToday() {
     document.getElementById('hero-consistency').textContent = calcConsistency();
     document.getElementById('hero-cost').textContent = calcTotalCost().toFixed(1);
 
+    // today macros
+    var actual = dayActualMacros(today);
+    var planned = dayPlannedMacros(dow);
+    document.getElementById('today-kcal-in').textContent = Math.round(actual.kcal);
+    document.getElementById('today-kcal-target').textContent = Math.round(planned.kcal);
+    document.getElementById('today-protein').textContent = Math.round(actual.protein);
+    document.getElementById('today-fat').textContent = Math.round(actual.fat);
+    document.getElementById('today-carbs').textContent = Math.round(actual.carbs);
+    document.getElementById('today-kcal-out').textContent = dayKcalBurn(today);
+    document.getElementById('today-cost').textContent = actual.cost.toFixed(2);
+
     // meals
     var meals = PLAN.meals[dow];
-    var mealDone = 0;
     var mealsHtml = '';
+    var allComps = 0, doneCompsCount = 0;
     meals.items.forEach(function(m) {
-      var key = today + '-' + m.id;
-      var done = !!state.meals[key];
-      if (done) mealDone++;
-      var cost = mealCost(m);
-      var compsHtml = m.components.map(function(c) {
-        var ingDef = PLAN.ingredients[c.ing];
-        var lineCost = (state.prices[c.ing] || 0) * c.qty;
-        return '<div class="meal-item"><span>' + ingDef.name + ' • ' + c.qty + ingDef.unit + '</span><span class="price">' + lineCost.toFixed(2) + ' €</span></div>';
-      }).join('');
-      mealsHtml += '<div class="meal-card"><div class="meal-header"><div class="meal-title">' + m.name + '</div><div class="meal-kcal">' + m.kcal + ' kcal · ' + cost.toFixed(2) + ' €</div></div><div class="meal-items">' + compsHtml + '</div><div class="meal-actions"><button class="btn-mini ' + (done ? 'done' : '') + '" data-meal-key="' + key + '">' + (done ? '✓ Pojedeno' : 'Označi') + '</button></div></div>';
+      var mealMac = mealMacros(today, m);
+      var compsHtml = '';
+      m.components.forEach(function(c) {
+        allComps++;
+        var done = isCompDone(today, m.id, c.ing);
+        if (done) doneCompsCount++;
+        var qty = getCompQty(today, m.id, c);
+        var ing = PLAN.ingredients[c.ing];
+        compsHtml += '<div class="meal-comp ' + (done ? 'done' : '') + '" data-comp-meal="' + m.id + '" data-comp-ing="' + c.ing + '">' +
+          '<div class="checkbox sm"></div>' +
+          '<div class="meal-comp-name">' + ing.name + '</div>' +
+          '<input type="number" step="0.01" class="meal-comp-qty" value="' + qty + '" data-qty-meal="' + m.id + '" data-qty-ing="' + c.ing + '" onclick="event.stopPropagation()">' +
+          '<div class="meal-comp-unit">' + ing.unit + '</div>' +
+          '</div>';
+      });
+      mealsHtml += '<div class="meal-card">' +
+        '<div class="meal-header">' +
+          '<div class="meal-title">' + m.name + '</div>' +
+          '<div class="meal-kcal">' + Math.round(mealMac.kcal) + ' / ' + Math.round(mealPlanned(m).kcal) + ' kcal</div>' +
+        '</div>' +
+        '<div class="meal-comps">' + compsHtml + '</div>' +
+        '<div class="meal-summary">' +
+          '<span>P: <strong>' + Math.round(mealMac.protein) + 'g</strong></span>' +
+          '<span>M: <strong>' + Math.round(mealMac.fat) + 'g</strong></span>' +
+          '<span>UH: <strong>' + Math.round(mealMac.carbs) + 'g</strong></span>' +
+          '<span style="margin-left:auto; color:var(--accent);">' + mealMac.cost.toFixed(2) + ' €</span>' +
+        '</div>' +
+      '</div>';
     });
     document.getElementById('today-meals').innerHTML = mealsHtml;
-    document.getElementById('meals-count').textContent = mealDone + '/' + meals.items.length;
+    document.getElementById('meals-count').textContent = doneCompsCount + '/' + allComps;
+
+    // custom meals
+    var customs = state.customMeals[today] || [];
+    var cmHtml = '';
+    if (customs.length === 0) {
+      cmHtml = '<div class="empty" style="padding:14px;">Nema dodatnih obroka. Klikni "+ Dodaj" da upišeš nešto van plana.</div>';
+    } else {
+      customs.forEach(function(cm) {
+        var done = cm.done !== false;
+        cmHtml += '<div class="meal-card" style="' + (!done ? 'opacity:0.5;' : '') + '">' +
+          '<div class="meal-header">' +
+            '<div class="meal-title" style="font-size:15px;">' + escapeHtml(cm.name) + '</div>' +
+            '<div class="meal-kcal">' + Math.round(cm.kcal) + ' kcal</div>' +
+          '</div>' +
+          '<div class="meal-summary" style="margin-top:0; border-top:none; padding-top:0;">' +
+            '<span>P: <strong>' + Math.round(cm.protein || 0) + 'g</strong></span>' +
+            '<span>M: <strong>' + Math.round(cm.fat || 0) + 'g</strong></span>' +
+            '<span>UH: <strong>' + Math.round(cm.carbs || 0) + 'g</strong></span>' +
+            '<button class="btn btn-ghost" style="margin-left:auto; padding:4px 10px; font-size:10px;" data-cm-toggle="' + cm.id + '">' + (done ? '✓ Pojedeno' : 'Označi') + '</button>' +
+            '<button class="btn btn-ghost" style="padding:4px 10px; font-size:10px; color:var(--danger); border-color:rgba(239,68,68,0.3);" data-cm-del="' + cm.id + '">×</button>' +
+          '</div>' +
+        '</div>';
+      });
+    }
+    document.getElementById('today-custom-meals').innerHTML = cmHtml;
 
     // workout
     var wo = PLAN.workouts[dow];
-    var woKey = today + '-workout';
-    var woDone = !!state.workoutDays[woKey];
+    var exDone = dayExercisesDone(today);
     var badgeClass = wo.type.indexOf('CARDIO') !== -1 ? 'cardio' : (wo.type === 'ODMOR' || wo.type === 'AKTIVNI DAN' ? 'rest' : '');
-    document.getElementById('workout-count').textContent = woDone ? '✓ DONE' : wo.type;
-    var exHtml = wo.exercises.map(function(ex) {
-      return '<div class="meal-item"><span>' + ex.name + '</span><span class="check-meta">' + ex.sets + '× ' + ex.reps + '</span></div>';
-    }).join('');
-    document.getElementById('today-workout').innerHTML = '<div class="workout-day"><div class="workout-header"><div class="workout-title">' + wo.type + '</div><div class="workout-badge ' + badgeClass + '">' + wo.exercises.length + ' vježbi</div></div>' + exHtml + '<div class="meal-actions"><button class="btn-mini ' + (woDone ? 'done' : '') + '" data-workout-key="' + woKey + '">' + (woDone ? '✓ Odrađeno' : 'Označi kao gotovo') + '</button></div></div>';
+    document.getElementById('workout-count').textContent = exDone.done + '/' + exDone.total;
+    var exHtml = '';
+    wo.exercises.forEach(function(ex) {
+      var done = !!state.exercises[exerKey(today, ex.id)];
+      exHtml += '<div class="exercise-row ' + (done ? 'done' : '') + '" data-ex-id="' + ex.id + '">' +
+        '<div class="checkbox sm"></div>' +
+        '<div class="ex-name">' + ex.name + '</div>' +
+        '<div class="ex-meta">' + ex.sets + '× ' + ex.reps + ' · ' + ex.kcal + ' kcal</div>' +
+      '</div>';
+    });
+    document.getElementById('today-workout').innerHTML =
+      '<div class="workout-day">' +
+        '<div class="workout-header">' +
+          '<div class="workout-title">' + wo.type + '</div>' +
+          '<div class="workout-badge ' + badgeClass + '">' + dayKcalBurn(today) + ' / ' + wo.kcalBurn + ' kcal</div>' +
+        '</div>' +
+        exHtml +
+      '</div>';
 
     // checks
     var checksHtml = '';
@@ -942,42 +1541,403 @@ function renderToday() {
     shopHtml += '</div>';
     document.getElementById('tomorrow-shop').innerHTML = shopHtml;
 
-    // weight input prefill
     var wt = state.weights[today];
     document.getElementById('weight-input').value = wt || '';
 
-    // attach handlers (event delegation)
     attachTodayHandlers();
   } catch (e) {
     console.error('renderToday error', e);
-    toast('Greška u renderu: ' + e.message);
+    toast('Greška: ' + e.message);
   }
 }
 
-function attachTodayHandlers() {
-  document.querySelectorAll('[data-meal-key]').forEach(function(el) {
-    el.onclick = function() { toggleMeal(el.dataset.mealKey); };
-  });
-  document.querySelectorAll('[data-workout-key]').forEach(function(el) {
-    el.onclick = function() { toggleWorkout(el.dataset.workoutKey); };
-  });
-  document.querySelectorAll('[data-check-key]').forEach(function(el) {
-    el.onclick = function() { toggleCheck(el.dataset.checkKey); };
+function escapeHtml(str) {
+  if (typeof str !== 'string') return '';
+  return str.replace(/[&<>"']/g, function(c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
   });
 }
 
-function toggleMeal(key) {
-  state.meals[key] = !state.meals[key];
+function attachTodayHandlers() {
+  // meal component toggle
+  document.querySelectorAll('[data-comp-meal]').forEach(function(el) {
+    el.onclick = function() {
+      toggleMealComp(el.dataset.compMeal, el.dataset.compIng);
+    };
+  });
+  // qty change
+  document.querySelectorAll('[data-qty-meal]').forEach(function(el) {
+    el.onchange = function() {
+      setMealCompQty(el.dataset.qtyMeal, el.dataset.qtyIng, parseFloat(el.value));
+    };
+    el.onclick = function(e) { e.stopPropagation(); };
+  });
+  // exercise toggle
+  document.querySelectorAll('[data-ex-id]').forEach(function(el) {
+    el.onclick = function() { toggleExercise(el.dataset.exId); };
+  });
+  // daily checks
+  document.querySelectorAll('[data-check-key]').forEach(function(el) {
+    el.onclick = function() { toggleCheck(el.dataset.checkKey); };
+  });
+  // custom meal toggle done
+  document.querySelectorAll('[data-cm-toggle]').forEach(function(el) {
+    el.onclick = function() { toggleCustomMeal(el.dataset.cmToggle); };
+  });
+  // custom meal delete
+  document.querySelectorAll('[data-cm-del]').forEach(function(el) {
+    el.onclick = function() {
+      if (!confirm('Obrisati ovaj obrok?')) return;
+      deleteCustomMeal(el.dataset.cmDel);
+    };
+  });
+}
+
+function toggleCustomMeal(id) {
+  var today = todayStr();
+  var arr = state.customMeals[today] || [];
+  var idx = arr.findIndex(function(cm) { return cm.id === id; });
+  if (idx === -1) return;
+  arr[idx].done = arr[idx].done === false ? true : false;
+  state.customMeals[today] = arr;
   saveState();
   renderToday();
-  toast(state.meals[key] ? 'Obrok ✓' : 'Obrok odznačen');
 }
-function toggleWorkout(key) {
-  state.workoutDays[key] = !state.workoutDays[key];
+
+function deleteCustomMeal(id) {
+  var today = todayStr();
+  var arr = state.customMeals[today] || [];
+  state.customMeals[today] = arr.filter(function(cm) { return cm.id !== id; });
   saveState();
   renderToday();
-  toast(state.workoutDays[key] ? 'Trening ✓' : 'Trening odznačen');
+  toast('Obrok obrisan');
 }
+
+function addCustomMeal(data) {
+  var today = todayStr();
+  if (!state.customMeals[today]) state.customMeals[today] = [];
+  state.customMeals[today].push({
+    id: 'cm_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+    name: data.name,
+    kcal: data.kcal,
+    protein: data.protein,
+    fat: data.fat,
+    carbs: data.carbs,
+    cost: 0,
+    done: true,
+  });
+  saveState();
+  renderToday();
+  toast('Obrok dodan ✓');
+}
+
+// ============================================
+// FOOD LIBRARY
+// ============================================
+// Returns combined list of plan ingredients + custom foods
+function getAllFoods() {
+  var list = [];
+  Object.keys(PLAN.ingredients).forEach(function(key) {
+    var ing = PLAN.ingredients[key];
+    list.push({
+      id: 'plan_' + key,
+      key: key,
+      name: ing.name,
+      unit: ing.unit,
+      kcal: ing.kcal,
+      protein: ing.protein,
+      fat: ing.fat,
+      carbs: ing.carbs,
+      category: ing.category,
+      price: state.prices[key] || ing.defaultPrice,
+      isCustom: false,
+    });
+  });
+  Object.keys(state.customFoods || {}).forEach(function(key) {
+    var f = state.customFoods[key];
+    list.push({
+      id: key,
+      key: key,
+      name: f.name,
+      unit: f.unit,
+      kcal: f.kcal,
+      protein: f.protein,
+      fat: f.fat,
+      carbs: f.carbs,
+      category: f.category || 'moje',
+      price: f.price || 0,
+      isCustom: true,
+    });
+  });
+  return list;
+}
+
+function renderFoodTab() {
+  var all = getAllFoods();
+  // group by category, custom first
+  var grouped = {};
+  all.forEach(function(f) {
+    if (!grouped[f.category]) grouped[f.category] = [];
+    grouped[f.category].push(f);
+  });
+  // order: moje first, then others alphabetically
+  var catOrder = Object.keys(grouped).sort(function(a, b) {
+    if (a === 'moje') return -1;
+    if (b === 'moje') return 1;
+    return a.localeCompare(b);
+  });
+  var html = '';
+  catOrder.forEach(function(cat) {
+    html += '<div class="section-title" style="text-transform:uppercase;">' + cat + ' <span class="count">' + grouped[cat].length + '</span></div><div class="shop-card">';
+    grouped[cat].forEach(function(f) {
+      var unitLabel = f.unit === '100g' ? '100g' : f.unit;
+      html += '<div class="price-row">' +
+        '<div class="price-name">' + escapeHtml(f.name) +
+          '<small>' + Math.round(f.kcal) + ' kcal · ' + Math.round(f.protein) + 'g P · ' + Math.round(f.fat) + 'g M · ' + Math.round(f.carbs) + 'g UH · po ' + unitLabel + '</small>' +
+        '</div>';
+      if (f.isCustom) {
+        html += '<button class="btn btn-ghost" style="padding:5px 10px; font-size:10px; color:var(--danger); border-color:rgba(239,68,68,0.3);" data-del-food="' + f.id + '">×</button>';
+      } else {
+        html += '<span class="price-unit" style="width:auto;">' + (f.price ? f.price.toFixed(2) + ' €' : '') + '</span>';
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+  document.getElementById('food-view').innerHTML = html;
+  document.querySelectorAll('[data-del-food]').forEach(function(el) {
+    el.onclick = function() {
+      if (!confirm('Obrisati ovu namirnicu iz biblioteke?')) return;
+      delete state.customFoods[el.dataset.delFood];
+      saveState();
+      renderFoodTab();
+      toast('Namirnica obrisana');
+    };
+  });
+}
+
+// ============================================
+// CUSTOM FOOD MODAL
+// ============================================
+function openCustomFoodModal() {
+  document.getElementById('custom-food-modal').style.display = 'block';
+  document.getElementById('cf-name').value = '';
+  document.getElementById('cf-unit').value = '100g';
+  document.getElementById('cf-price').value = '';
+  document.getElementById('cf-kcal').value = '';
+  document.getElementById('cf-protein').value = '';
+  document.getElementById('cf-fat').value = '';
+  document.getElementById('cf-carbs').value = '';
+  document.getElementById('cf-category').value = 'moje';
+}
+function closeCustomFoodModal() {
+  document.getElementById('custom-food-modal').style.display = 'none';
+}
+function saveCustomFood() {
+  var name = document.getElementById('cf-name').value.trim();
+  if (!name) { toast('Upiši naziv'); return; }
+  var kcal = parseFloat(document.getElementById('cf-kcal').value);
+  if (isNaN(kcal) || kcal < 0) { toast('Upiši kalorije'); return; }
+  var id = 'cf_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+  state.customFoods[id] = {
+    name: name,
+    unit: document.getElementById('cf-unit').value,
+    kcal: kcal,
+    protein: parseFloat(document.getElementById('cf-protein').value) || 0,
+    fat: parseFloat(document.getElementById('cf-fat').value) || 0,
+    carbs: parseFloat(document.getElementById('cf-carbs').value) || 0,
+    category: document.getElementById('cf-category').value,
+    price: parseFloat(document.getElementById('cf-price').value) || 0,
+  };
+  saveState();
+  closeCustomFoodModal();
+  renderFoodTab();
+  toast('Namirnica spremljena ✓');
+}
+var cmMode = 'library'; // 'library', 'total', 'per100'
+var cmSelectedFood = null;
+
+function openCustomMealModal() {
+  document.getElementById('custom-meal-modal').style.display = 'block';
+  document.getElementById('cm-name').value = '';
+  document.getElementById('cm-grams').value = '';
+  document.getElementById('cm-kcal').value = '';
+  document.getElementById('cm-protein').value = '';
+  document.getElementById('cm-fat').value = '';
+  document.getElementById('cm-carbs').value = '';
+  document.getElementById('cm-search').value = '';
+  document.getElementById('cm-lib-qty').value = '';
+  cmSelectedFood = null;
+  document.getElementById('cm-selected-food').style.display = 'none';
+  document.getElementById('cm-qty-row').style.display = 'none';
+  setCustomMealMode('library');
+  renderLibrarySearch('');
+}
+
+function closeCustomMealModal() {
+  document.getElementById('custom-meal-modal').style.display = 'none';
+}
+
+function setCustomMealMode(mode) {
+  cmMode = mode;
+  document.querySelectorAll('.cm-mode-btn').forEach(function(btn) {
+    if (btn.dataset.mode === mode) {
+      btn.style.background = 'var(--accent)';
+      btn.style.border = 'none';
+      btn.style.color = '#fff';
+    } else {
+      btn.style.background = 'transparent';
+      btn.style.border = '1px solid var(--border)';
+      btn.style.color = 'var(--text-dim)';
+    }
+  });
+  document.getElementById('cm-library-row').style.display = mode === 'library' ? 'block' : 'none';
+  document.getElementById('cm-manual-rows').style.display = mode === 'library' ? 'none' : 'block';
+  document.getElementById('cm-per100-row').style.display = mode === 'per100' ? 'block' : 'none';
+  if (mode === 'per100') {
+    document.getElementById('cm-kcal-label').textContent = 'KCAL / 100g';
+    document.getElementById('cm-protein-label').textContent = 'PROTEIN / 100g';
+    document.getElementById('cm-fat-label').textContent = 'MASTI / 100g';
+    document.getElementById('cm-carbs-label').textContent = 'UH / 100g';
+  } else if (mode === 'total') {
+    document.getElementById('cm-kcal-label').textContent = 'KCAL UKUPNO';
+    document.getElementById('cm-protein-label').textContent = 'PROTEIN (g)';
+    document.getElementById('cm-fat-label').textContent = 'MASTI (g)';
+    document.getElementById('cm-carbs-label').textContent = 'UH (g)';
+  }
+  updateCustomMealPreview();
+}
+
+function renderLibrarySearch(query) {
+  var all = getAllFoods();
+  var q = (query || '').toLowerCase().trim();
+  if (q) all = all.filter(function(f) { return f.name.toLowerCase().indexOf(q) !== -1; });
+  all.sort(function(a, b) {
+    if (a.isCustom && !b.isCustom) return -1;
+    if (!a.isCustom && b.isCustom) return 1;
+    return a.name.localeCompare(b.name);
+  });
+  if (all.length === 0) {
+    document.getElementById('cm-search-results').innerHTML = '<div class="empty" style="padding:14px;">Nema namirnica. Dodaj u Hrana tabu.</div>';
+    return;
+  }
+  var html = '';
+  all.slice(0, 30).forEach(function(f) {
+    var unitLabel = f.unit === '100g' ? '100g' : f.unit;
+    html += '<div class="meal-comp" data-pick-food="' + f.id + '" style="cursor:pointer;">' +
+      '<div class="meal-comp-name">' + escapeHtml(f.name) +
+        '<div style="font-family:\'JetBrains Mono\',monospace; font-size:9px; color:var(--text-muted); margin-top:2px;">' + Math.round(f.kcal) + ' kcal · ' + Math.round(f.protein) + 'g P · ' + Math.round(f.fat) + 'g M · ' + Math.round(f.carbs) + 'g UH / ' + unitLabel + '</div>' +
+      '</div>' +
+    '</div>';
+  });
+  document.getElementById('cm-search-results').innerHTML = html;
+  document.querySelectorAll('[data-pick-food]').forEach(function(el) {
+    el.onclick = function() { pickLibraryFood(el.dataset.pickFood); };
+  });
+}
+
+function pickLibraryFood(id) {
+  var all = getAllFoods();
+  var f = all.find(function(x) { return x.id === id; });
+  if (!f) return;
+  cmSelectedFood = f;
+  document.getElementById('cm-selected-food').style.display = 'block';
+  document.getElementById('cm-selected-food').innerHTML = '<strong style="color:var(--accent);">' + escapeHtml(f.name) + '</strong><br><span style="font-family:\'JetBrains Mono\',monospace; font-size:10px; color:var(--text-dim);">' + Math.round(f.kcal) + ' kcal · ' + Math.round(f.protein) + 'g P · ' + Math.round(f.fat) + 'g M · ' + Math.round(f.carbs) + 'g UH po ' + f.unit + '</span>';
+  document.getElementById('cm-qty-row').style.display = 'block';
+  document.getElementById('cm-lib-qty').value = f.unit === '100g' ? '100' : '1';
+  document.getElementById('cm-lib-unit').textContent = f.unit === '100g' ? 'g' : f.unit;
+  document.getElementById('cm-search-results').innerHTML = '';
+  document.getElementById('cm-search').value = '';
+  updateCustomMealPreview();
+}
+
+function getCustomMealValues() {
+  if (cmMode === 'library') {
+    if (!cmSelectedFood) return { name: '', kcal: 0, protein: 0, fat: 0, carbs: 0 };
+    var qty = parseFloat(document.getElementById('cm-lib-qty').value) || 0;
+    var factor = cmSelectedFood.unit === '100g' ? qty / 100 : qty;
+    var nameSuffix = '';
+    if (cmSelectedFood.unit === '100g') nameSuffix = ' (' + qty + 'g)';
+    else if (qty !== 1) nameSuffix = ' (' + qty + ' ' + cmSelectedFood.unit + ')';
+    return {
+      name: cmSelectedFood.name + nameSuffix,
+      kcal: cmSelectedFood.kcal * factor,
+      protein: cmSelectedFood.protein * factor,
+      fat: cmSelectedFood.fat * factor,
+      carbs: cmSelectedFood.carbs * factor,
+      cost: (cmSelectedFood.price || 0) * factor,
+    };
+  }
+  var name = document.getElementById('cm-name').value.trim();
+  var kcal = parseFloat(document.getElementById('cm-kcal').value) || 0;
+  var protein = parseFloat(document.getElementById('cm-protein').value) || 0;
+  var fat = parseFloat(document.getElementById('cm-fat').value) || 0;
+  var carbs = parseFloat(document.getElementById('cm-carbs').value) || 0;
+  if (cmMode === 'per100') {
+    var grams = parseFloat(document.getElementById('cm-grams').value) || 0;
+    var f100 = grams / 100;
+    return { name: name + (grams ? ' (' + grams + 'g)' : ''), grams: grams, kcal: kcal * f100, protein: protein * f100, fat: fat * f100, carbs: carbs * f100 };
+  }
+  return { name: name, kcal: kcal, protein: protein, fat: fat, carbs: carbs };
+}
+
+function updateCustomMealPreview() {
+  var v = getCustomMealValues();
+  if (v.kcal === 0 && v.protein === 0 && v.fat === 0 && v.carbs === 0) {
+    document.getElementById('cm-preview').style.display = 'none';
+    return;
+  }
+  document.getElementById('cm-preview').style.display = 'block';
+  document.getElementById('cm-preview-text').innerHTML =
+    '<strong style="color:var(--accent);">' + Math.round(v.kcal) + ' kcal</strong><br>' +
+    'P: ' + Math.round(v.protein) + 'g · M: ' + Math.round(v.fat) + 'g · UH: ' + Math.round(v.carbs) + 'g';
+}
+
+function saveCustomMeal() {
+  var v = getCustomMealValues();
+  if (cmMode === 'library' && !cmSelectedFood) { toast('Odaberi namirnicu'); return; }
+  if (!v.name) { toast('Upiši naziv obroka'); return; }
+  if (v.kcal === 0) { toast('Upiši kalorije ili odaberi namirnicu'); return; }
+  addCustomMeal(v);
+  closeCustomMealModal();
+}
+
+function toggleMealComp(mealId, ing) {
+  var ds = todayStr();
+  var key = compKey(ds, mealId, ing);
+  if (!state.mealComps[key]) {
+    // find default qty
+    var dow = dayOfWeek(ds);
+    var meal = PLAN.meals[dow].items.find(function(x) { return x.id === mealId; });
+    var comp = meal.components.find(function(c) { return c.ing === ing; });
+    state.mealComps[key] = { done: true, qty: comp.qty };
+  } else {
+    state.mealComps[key].done = !state.mealComps[key].done;
+  }
+  saveState();
+  renderToday();
+}
+
+function setMealCompQty(mealId, ing, qty) {
+  if (isNaN(qty) || qty < 0) return;
+  var ds = todayStr();
+  var key = compKey(ds, mealId, ing);
+  if (!state.mealComps[key]) {
+    state.mealComps[key] = { done: false, qty: qty };
+  } else {
+    state.mealComps[key].qty = qty;
+  }
+  saveState();
+  renderToday();
+}
+
+function toggleExercise(exId) {
+  var key = exerKey(todayStr(), exId);
+  state.exercises[key] = !state.exercises[key];
+  saveState();
+  renderToday();
+}
+
 function toggleCheck(key) {
   state.checks[key] = !state.checks[key];
   saveState();
@@ -995,7 +1955,6 @@ function saveWeight() {
   renderToday();
   toast('Težina: ' + val + ' kg');
 }
-
 // ============================================
 // MEALS TAB
 // ============================================
@@ -1021,14 +1980,29 @@ function selectMealsDay(dayIdx) {
   if (sel) sel.classList.add('active');
 
   var meals = PLAN.meals[dayIdx];
-  var html = '<div class="card" style="margin-bottom:14px;"><div class="card-row"><div><div style="font-family:\'JetBrains Mono\',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px;">UKUPNO</div><div style="font-family:\'Bebas Neue\',sans-serif; font-size:24px;">' + meals.kcal + ' KCAL</div></div><div style="text-align:right;"><div style="font-family:\'JetBrains Mono\',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px;">TROŠAK</div><div style="font-family:\'Bebas Neue\',sans-serif; font-size:24px; color:var(--accent);">' + dayCost(dayIdx).toFixed(2) + ' €</div></div></div></div>';
+  var planned = dayPlannedMacros(dayIdx);
+  var html = '<div class="card" style="margin-bottom:14px;">' +
+    '<div class="card-row">' +
+      '<div><div style="font-family:\'JetBrains Mono\',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px;">UKUPNO PLAN</div>' +
+        '<div style="font-family:\'Bebas Neue\',sans-serif; font-size:24px;">' + Math.round(planned.kcal) + ' KCAL</div></div>' +
+      '<div style="text-align:right;"><div style="font-family:\'JetBrains Mono\',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px;">TROŠAK</div>' +
+        '<div style="font-family:\'Bebas Neue\',sans-serif; font-size:24px; color:var(--accent);">' + planned.cost.toFixed(2) + ' €</div></div>' +
+    '</div>' +
+    '<div class="meal-summary" style="margin-top:10px; border-top:1px solid var(--border); padding-top:10px;">' +
+      '<span>P: <strong>' + Math.round(planned.protein) + 'g</strong></span>' +
+      '<span>M: <strong>' + Math.round(planned.fat) + 'g</strong></span>' +
+      '<span>UH: <strong>' + Math.round(planned.carbs) + 'g</strong></span>' +
+    '</div>' +
+  '</div>';
   meals.items.forEach(function(m) {
-    var cost = mealCost(m);
+    var mp = mealPlanned(m);
     var compsHtml = m.components.map(function(c) {
       var def = PLAN.ingredients[c.ing];
-      return '<div class="meal-item"><span>' + def.name + '</span><span class="check-meta">' + c.qty + ' ' + def.unit + '</span></div>';
+      return '<div class="meal-comp" style="cursor:default;"><div style="width:18px;"></div><div class="meal-comp-name">' + def.name + '</div><div class="meal-comp-unit" style="width:auto;">' + c.qty + ' ' + def.unit + '</div></div>';
     }).join('');
-    html += '<div class="meal-card"><div class="meal-header"><div class="meal-title">' + m.name + '</div><div class="meal-kcal">' + m.kcal + ' kcal · ' + cost.toFixed(2) + ' €</div></div><div class="meal-items">' + compsHtml + '</div></div>';
+    html += '<div class="meal-card"><div class="meal-header"><div class="meal-title">' + m.name + '</div><div class="meal-kcal">' + Math.round(mp.kcal) + ' kcal · ' + mp.cost.toFixed(2) + ' €</div></div><div class="meal-comps">' + compsHtml + '</div>' +
+      '<div class="meal-summary"><span>P: <strong>' + Math.round(mp.protein) + 'g</strong></span><span>M: <strong>' + Math.round(mp.fat) + 'g</strong></span><span>UH: <strong>' + Math.round(mp.carbs) + 'g</strong></span></div>' +
+      '</div>';
   });
   document.getElementById('meals-day-view').innerHTML = html;
 }
@@ -1059,11 +2033,184 @@ function selectWorkoutDay(dayIdx) {
   var wo = PLAN.workouts[dayIdx];
   var badgeClass = wo.type.indexOf('CARDIO') !== -1 ? 'cardio' : (wo.type === 'ODMOR' || wo.type === 'AKTIVNI DAN' ? 'rest' : '');
   var exHtml = wo.exercises.map(function(ex) {
-    return '<div class="meal-item" style="padding:8px 0; border-bottom:1px solid var(--border);"><span>' + ex.name + '</span><span class="check-meta">' + ex.sets + '× ' + ex.reps + '</span></div>';
+    return '<div class="exercise-row" style="cursor:default;"><div style="width:18px;"></div><div class="ex-name">' + ex.name + '</div><div class="ex-meta">' + ex.sets + '× ' + ex.reps + ' · ' + ex.kcal + ' kcal</div></div>';
   }).join('');
-  document.getElementById('workout-day-view').innerHTML = '<div class="workout-day"><div class="workout-header"><div class="workout-title">' + wo.type + '</div><div class="workout-badge ' + badgeClass + '">' + wo.exercises.length + ' vježbi</div></div>' + exHtml + '</div>';
+  document.getElementById('workout-day-view').innerHTML = '<div class="workout-day"><div class="workout-header"><div class="workout-title">' + wo.type + '</div><div class="workout-badge ' + badgeClass + '">~' + wo.kcalBurn + ' kcal</div></div>' + exHtml + '</div>';
 }
 
+// ============================================
+// BODY MEASUREMENTS TAB
+// ============================================
+function renderBodyTab() {
+  var today = todayStr();
+  var m = state.measures[today] || {};
+  document.getElementById('m-waist').value = m.waist || '';
+  document.getElementById('m-hip').value = m.hip || '';
+  document.getElementById('m-glutes').value = m.glutes || '';
+  document.getElementById('m-chest').value = m.chest || '';
+  document.getElementById('m-shoulders').value = m.shoulders || '';
+  document.getElementById('m-neck').value = m.neck || '';
+  document.getElementById('m-biceps').value = m.biceps || '';
+  document.getElementById('m-forearm').value = m.forearm || '';
+  document.getElementById('m-thigh').value = m.thigh || '';
+  document.getElementById('m-legLength').value = m.legLength || '';
+
+  var dates = Object.keys(state.measures).sort().reverse();
+  if (dates.length === 0) {
+    document.getElementById('measure-history').innerHTML = '<div class="empty">Nema mjera još. Unesi prve gore.</div>';
+    return;
+  }
+  var html = '';
+  var firstDate = dates[dates.length - 1];
+  var firstM = state.measures[firstDate];
+  var fields = [
+    { key: 'waist', label: 'Struk', goodDir: 'down' },
+    { key: 'hip', label: 'Kukovi', goodDir: 'down' },
+    { key: 'glutes', label: 'Dupe', goodDir: 'neutral' },
+    { key: 'chest', label: 'Prsa', goodDir: 'up' },
+    { key: 'shoulders', label: 'Ramena', goodDir: 'up' },
+    { key: 'neck', label: 'Vrat', goodDir: 'neutral' },
+    { key: 'biceps', label: 'Biceps', goodDir: 'up' },
+    { key: 'forearm', label: 'Podlaktica', goodDir: 'up' },
+    { key: 'thigh', label: 'Butina', goodDir: 'neutral' },
+    { key: 'legLength', label: 'Duljina nogu', goodDir: 'neutral' },
+  ];
+  dates.forEach(function(ds, idx) {
+    var data = state.measures[ds];
+    var rows = '';
+    fields.forEach(function(f) {
+      if (data[f.key] === undefined || data[f.key] === null || data[f.key] === '') return;
+      var delta = '';
+      var trendClass = '';
+      if (firstM && firstM[f.key] !== undefined && idx !== dates.length - 1) {
+        var d = data[f.key] - firstM[f.key];
+        var s = d > 0 ? '+' : '';
+        delta = ' · ' + s + d.toFixed(1) + ' cm';
+        if (f.goodDir === 'down') {
+          trendClass = d < 0 ? 'down' : (d > 0 ? 'up' : '');
+        } else if (f.goodDir === 'up') {
+          trendClass = d > 0 ? 'down' : (d < 0 ? 'up' : '');
+        }
+      }
+      rows += '<div class="measure-row"><div class="measure-name">' + f.label + '</div><div class="measure-trend ' + trendClass + '">' + data[f.key] + ' cm' + delta + '</div></div>';
+    });
+    var label = formatDateShort(ds);
+    if (idx === 0) label += ' · NAJNOVIJE';
+    else if (idx === dates.length - 1) label += ' · START';
+    html += '<div class="card"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"><span style="font-family:\'JetBrains Mono\',monospace; font-size:11px; color:var(--text-dim); letter-spacing:1px;">' + label + '</span><button class="btn btn-ghost" style="padding:3px 8px; font-size:9px;" data-del-measure="' + ds + '">×</button></div>' + rows + '</div>';
+  });
+  document.getElementById('measure-history').innerHTML = html;
+  document.querySelectorAll('[data-del-measure]').forEach(function(el) {
+    el.onclick = function() {
+      if (!confirm('Obrisati mjere za ' + el.dataset.delMeasure + '?')) return;
+      delete state.measures[el.dataset.delMeasure];
+      saveState();
+      renderBodyTab();
+    };
+  });
+}
+
+function saveMeasures() {
+  var today = todayStr();
+  var m = {
+    waist: parseFloat(document.getElementById('m-waist').value) || null,
+    hip: parseFloat(document.getElementById('m-hip').value) || null,
+    glutes: parseFloat(document.getElementById('m-glutes').value) || null,
+    chest: parseFloat(document.getElementById('m-chest').value) || null,
+    shoulders: parseFloat(document.getElementById('m-shoulders').value) || null,
+    neck: parseFloat(document.getElementById('m-neck').value) || null,
+    biceps: parseFloat(document.getElementById('m-biceps').value) || null,
+    forearm: parseFloat(document.getElementById('m-forearm').value) || null,
+    thigh: parseFloat(document.getElementById('m-thigh').value) || null,
+    legLength: parseFloat(document.getElementById('m-legLength').value) || null,
+  };
+  Object.keys(m).forEach(function(k) { if (m[k] === null) delete m[k]; });
+  if (Object.keys(m).length === 0) {
+    toast('Unesi barem jednu mjeru');
+    return;
+  }
+  state.measures[today] = m;
+  saveState();
+  toast('Mjere spremljene ✓');
+  renderBodyTab();
+}
+
+// ============================================
+// PHOTOS TAB
+// ============================================
+var pendingPhotoType = null;
+
+function renderPhotosTab() {
+  loadPhotos();
+  if (photos.length === 0) {
+    document.getElementById('photo-grid').innerHTML = '<div class="photo-card empty" style="grid-column:1/-1;">Nema slika još. Klikni gore + Front / + Profil / + Leđa za prvu fotku.</div>';
+    return;
+  }
+  // sort by date desc, then by type
+  var sorted = photos.slice().sort(function(a, b) {
+    if (a.date !== b.date) return b.date.localeCompare(a.date);
+    return a.type.localeCompare(b.type);
+  });
+  var html = '';
+  sorted.forEach(function(p) {
+    html += '<div class="photo-card">' +
+      '<img src="' + p.data + '" alt="">' +
+      '<button class="photo-del" data-photo-id="' + p.id + '">×</button>' +
+      '<div class="photo-label"><span>' + p.type.toUpperCase() + '</span><span>' + formatDateShort(p.date) + '</span></div>' +
+    '</div>';
+  });
+  document.getElementById('photo-grid').innerHTML = html;
+  document.querySelectorAll('[data-photo-id]').forEach(function(el) {
+    el.onclick = function() {
+      if (!confirm('Obrisati ovu sliku?')) return;
+      photos = photos.filter(function(p) { return p.id !== el.dataset.photoId; });
+      savePhotos();
+      renderPhotosTab();
+    };
+  });
+}
+
+function addPhoto(type) {
+  pendingPhotoType = type;
+  document.getElementById('photo-input').click();
+}
+
+function handlePhotoUpload(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  if (!pendingPhotoType) return;
+  // compress and store as dataURL
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    var img = new Image();
+    img.onload = function() {
+      // resize to max 800px width
+      var maxW = 800;
+      var ratio = maxW / img.width;
+      var w = img.width > maxW ? maxW : img.width;
+      var h = img.height * (img.width > maxW ? ratio : 1);
+      var canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      var compressed = canvas.toDataURL('image/jpeg', 0.7);
+      photos.push({
+        id: 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+        date: todayStr(),
+        type: pendingPhotoType,
+        data: compressed,
+      });
+      savePhotos();
+      pendingPhotoType = null;
+      document.getElementById('photo-input').value = '';
+      renderPhotosTab();
+      toast('Slika dodana ✓');
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 // ============================================
 // SHOPPING
 // ============================================
@@ -1100,6 +2247,7 @@ function generateWeekShopping() {
 function generateTomorrowShopping() {
   var tmw = dayOfWeek(tomorrowStr());
   var meals = PLAN.meals[tmw];
+  var planned = dayPlannedMacros(tmw);
   var ingMap = {};
   meals.items.forEach(function(m) {
     m.components.forEach(function(c) {
@@ -1107,7 +2255,7 @@ function generateTomorrowShopping() {
     });
   });
   var totalCost = 0;
-  var html = '<div class="card" style="margin-bottom:14px;"><div class="card-row"><div><div style="font-family:\'JetBrains Mono\',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px;">SUTRA (' + meals.label + ')</div><div style="font-family:\'Bebas Neue\',sans-serif; font-size:24px;">' + meals.kcal + ' KCAL</div></div></div></div><div class="shop-card">';
+  var html = '<div class="card" style="margin-bottom:14px;"><div class="card-row"><div><div style="font-family:\'JetBrains Mono\',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px;">SUTRA (' + meals.label + ')</div><div style="font-family:\'Bebas Neue\',sans-serif; font-size:24px;">' + Math.round(planned.kcal) + ' KCAL</div></div></div></div><div class="shop-card">';
   Object.keys(ingMap).forEach(function(ing) {
     var def = PLAN.ingredients[ing];
     var cost = (state.prices[ing] || def.defaultPrice) * ingMap[ing];
@@ -1121,7 +2269,7 @@ function generateTomorrowShopping() {
 function renderShoppingTab() { generateWeekShopping(); }
 
 // ============================================
-// PRICES
+// PRICES TAB
 // ============================================
 function renderPricesTab() {
   var grouped = {};
@@ -1136,7 +2284,7 @@ function renderPricesTab() {
     grouped[cat].forEach(function(ing) {
       var def = PLAN.ingredients[ing];
       var price = state.prices[ing] !== undefined ? state.prices[ing] : def.defaultPrice;
-      html += '<div class="price-row"><div class="price-name">' + def.name + '<small>cijena po ' + def.unit + '</small></div><input type="number" step="0.05" class="price-input" value="' + price + '" data-ing="' + ing + '"><div class="price-unit">€</div></div>';
+      html += '<div class="price-row"><div class="price-name">' + def.name + '<small>' + def.kcal + ' kcal · ' + def.protein + 'g P · po ' + def.unit + '</small></div><input type="number" step="0.05" class="price-input" value="' + price + '" data-ing="' + ing + '"><div class="price-unit">€</div></div>';
     });
     html += '</div>';
   });
@@ -1151,7 +2299,7 @@ function renderPricesTab() {
 }
 
 // ============================================
-// STATS (no Chart.js dependency - using CSS bars)
+// STATS
 // ============================================
 function renderStatsTab() {
   var latest = getLatestWeight();
@@ -1161,7 +2309,7 @@ function renderStatsTab() {
   document.getElementById('trend-delta').style.color = delta < 0 ? 'var(--success)' : 'var(--text)';
   document.getElementById('trend-goal').textContent = state.settings.goalWeight + ' KG';
 
-  // build chart as CSS bars (no Chart.js needed)
+  // weight bar chart
   var start = new Date(state.settings.startDate + 'T00:00:00');
   var minW = state.settings.goalWeight - 1;
   var maxW = state.settings.startWeight + 1;
@@ -1182,44 +2330,102 @@ function renderStatsTab() {
   barsHtml += '</div>';
   document.getElementById('weight-chart-container').innerHTML = barsHtml;
 
-  // performance bars
+  // perf
   var startD = new Date(state.settings.startDate + 'T00:00:00');
   var today = new Date(todayStr() + 'T00:00:00');
   var days = Math.max(1, Math.floor((today - startD) / (1000 * 60 * 60 * 24)) + 1);
   var capped = Math.min(14, days);
-  var expectedMeals = 0, doneMeals = 0;
-  var expectedWorkouts = 0, doneWorkouts = 0;
+  var expectedComps = 0, doneComps = 0;
+  var expectedEx = 0, doneEx = 0;
   var expectedDays = 0, doneWater = 0, doneNoalk = 0;
+  var totalKcalIn = 0, totalKcalOut = 0, totalProtein = 0, totalCost = 0;
   for (var i = 0; i < capped; i++) {
     var d2 = new Date(startD);
     d2.setDate(startD.getDate() + i);
     var ds2 = dateStr(d2);
     var dow = dayOfWeek(ds2);
-    var meals = PLAN.meals[dow].items;
-    expectedMeals += meals.length;
-    meals.forEach(function(m) { if (state.meals[ds2 + '-' + m.id]) doneMeals++; });
-    expectedWorkouts += 1;
-    if (state.workoutDays[ds2 + '-workout']) doneWorkouts++;
-    expectedDays += 1;
+    PLAN.meals[dow].items.forEach(function(m) {
+      m.components.forEach(function(c) {
+        expectedComps++;
+        if (isCompDone(ds2, m.id, c.ing)) doneComps++;
+      });
+    });
+    PLAN.workouts[dow].exercises.forEach(function(ex) {
+      expectedEx++;
+      if (state.exercises[exerKey(ds2, ex.id)]) doneEx++;
+    });
+    expectedDays++;
     if (state.checks[ds2 + '-water']) doneWater++;
     if (state.checks[ds2 + '-noalk']) doneNoalk++;
+    var dayM = dayActualMacros(ds2);
+    totalKcalIn += dayM.kcal;
+    totalProtein += dayM.protein;
+    totalCost += dayM.cost;
+    totalKcalOut += dayKcalBurn(ds2);
   }
-  setStat('meals', doneMeals, expectedMeals);
-  setStat('workouts', doneWorkouts, expectedWorkouts);
+  setStat('meals', doneComps, expectedComps);
+  setStat('workouts', doneEx, expectedEx);
   setStat('water', doneWater, expectedDays);
   setStat('noalk', doneNoalk, expectedDays);
 
-  var totalCost = calcTotalCost();
-  var cpm = doneMeals ? totalCost / doneMeals : 0;
+  document.getElementById('avg-kcal-in').textContent = Math.round(totalKcalIn / capped) + ' kcal';
+  document.getElementById('avg-kcal-out').textContent = Math.round(totalKcalOut / capped) + ' kcal';
+  document.getElementById('avg-protein').textContent = Math.round(totalProtein / capped) + ' g';
+  var avgKcalIn = totalKcalIn / capped;
+  var deficit = state.settings.tdee - avgKcalIn;
+  document.getElementById('avg-deficit').textContent = (deficit > 0 ? '-' : '+') + Math.abs(Math.round(deficit)) + ' kcal';
+
+  var cpm = doneComps ? totalCost / Math.max(1, Math.floor(doneComps / 2)) : 0;
   var cpd = totalCost / capped;
   var cpw = cpd * 7;
-  var proj = weekCost() * 2;
+  var weekPlanCost = 0;
+  for (var d = 1; d <= 7; d++) weekPlanCost += dayPlannedMacros(d).cost;
+  var proj = weekPlanCost * 2;
   document.getElementById('cost-per-meal').textContent = cpm.toFixed(2) + ' €';
   document.getElementById('cost-per-day').textContent = cpd.toFixed(2) + ' €';
   document.getElementById('cost-per-week').textContent = cpw.toFixed(2) + ' €';
   document.getElementById('cost-projection').textContent = proj.toFixed(2) + ' €';
 
-  // daily log
+  // measures summary
+  var mDates = Object.keys(state.measures).sort();
+  var measureSummaryEl = document.getElementById('measure-summary');
+  if (mDates.length < 2) {
+    measureSummaryEl.innerHTML = '<div class="empty">Treba ti barem 2 mjerenja za usporedbu. Unesi mjere u "Tijelo" tab.</div>';
+  } else {
+    var first = state.measures[mDates[0]];
+    var last = state.measures[mDates[mDates.length - 1]];
+    var fields = [
+      { key: 'waist', label: 'Struk', goodDir: 'down' },
+      { key: 'hip', label: 'Kukovi', goodDir: 'down' },
+      { key: 'glutes', label: 'Dupe', goodDir: 'neutral' },
+      { key: 'chest', label: 'Prsa', goodDir: 'up' },
+      { key: 'shoulders', label: 'Ramena', goodDir: 'up' },
+      { key: 'neck', label: 'Vrat', goodDir: 'neutral' },
+      { key: 'biceps', label: 'Biceps', goodDir: 'up' },
+      { key: 'forearm', label: 'Podlaktica', goodDir: 'up' },
+      { key: 'thigh', label: 'Butina', goodDir: 'neutral' },
+    ];
+    var msHtml = '<div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:8px;">';
+    fields.forEach(function(f) {
+      if (first[f.key] === undefined || last[f.key] === undefined) return;
+      var delta = last[f.key] - first[f.key];
+      var sign = delta > 0 ? '+' : '';
+      var color = 'var(--text)';
+      if (f.goodDir === 'down') color = delta < 0 ? 'var(--success)' : (delta > 0 ? 'var(--warn)' : 'var(--text)');
+      else if (f.goodDir === 'up') color = delta > 0 ? 'var(--success)' : (delta < 0 ? 'var(--warn)' : 'var(--text)');
+      msHtml += '<div style="background:var(--bg-elev); border-radius:8px; padding:10px 12px;">' +
+        '<div style="font-family:\'JetBrains Mono\',monospace; font-size:10px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase;">' + f.label + '</div>' +
+        '<div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:4px;">' +
+          '<span style="font-family:\'Bebas Neue\',sans-serif; font-size:20px;">' + last[f.key] + ' cm</span>' +
+          '<span style="font-family:\'JetBrains Mono\',monospace; font-size:12px; color:' + color + ';">' + sign + delta.toFixed(1) + '</span>' +
+        '</div>' +
+        '<div style="font-family:\'JetBrains Mono\',monospace; font-size:9px; color:var(--text-muted); margin-top:2px;">od ' + first[f.key] + ' cm (' + formatDateShort(mDates[0]) + ')</div>' +
+      '</div>';
+    });
+    msHtml += '</div>';
+    measureSummaryEl.innerHTML = msHtml;
+  }
+
   var logHtml = '';
   for (var i = capped - 1; i >= 0; i--) {
     var d3 = new Date(startD);
@@ -1227,11 +2433,18 @@ function renderStatsTab() {
     var ds3 = dateStr(d3);
     var dow3 = dayOfWeek(ds3);
     var wt = state.weights[ds3];
-    var mealsDone = PLAN.meals[dow3].items.filter(function(m) { return state.meals[ds3 + '-' + m.id]; }).length;
-    var totalMealsDay = PLAN.meals[dow3].items.length;
-    var woDone = !!state.workoutDays[ds3 + '-workout'];
-    var allDone = mealsDone === totalMealsDay && woDone;
-    logHtml += '<div class="card" style="padding:12px 14px; margin-bottom:6px;"><div class="card-row"><div><div style="font-family:\'JetBrains Mono\',monospace; font-size:11px; color:var(--text-dim); letter-spacing:1px;">DAN ' + (i + 1) + ' · ' + formatDateShort(ds3) + '</div><div style="font-size:13px; margin-top:2px;">' + (wt ? wt.toFixed(1) + ' kg' : '— kg') + ' • ' + mealsDone + '/' + totalMealsDay + ' obroka • ' + (woDone ? '✓' : '✗') + ' trening</div></div><div style="font-family:\'Bebas Neue\',sans-serif; font-size:18px; color:' + (allDone ? 'var(--success)' : 'var(--text-dim)') + ';">' + PLAN.meals[dow3].label + '</div></div></div>';
+    var compDone = 0, totalDayComps = 0;
+    PLAN.meals[dow3].items.forEach(function(m) {
+      m.components.forEach(function(c) {
+        totalDayComps++;
+        if (isCompDone(ds3, m.id, c.ing)) compDone++;
+      });
+    });
+    var exD = dayExercisesDone(ds3);
+    var dayKcalIn = Math.round(dayActualMacros(ds3).kcal);
+    var dayKcalOut = dayKcalBurn(ds3);
+    var allDone = compDone === totalDayComps && exD.done === exD.total;
+    logHtml += '<div class="card" style="padding:12px 14px; margin-bottom:6px;"><div class="card-row"><div><div style="font-family:\'JetBrains Mono\',monospace; font-size:11px; color:var(--text-dim); letter-spacing:1px;">DAN ' + (i + 1) + ' · ' + formatDateShort(ds3) + '</div><div style="font-size:13px; margin-top:2px;">' + (wt ? wt.toFixed(1) + ' kg · ' : '— · ') + dayKcalIn + '/' + dayKcalOut + ' kcal · ' + compDone + '/' + totalDayComps + ' obroka · ' + exD.done + '/' + exD.total + ' vježbi</div></div><div style="font-family:\'Bebas Neue\',sans-serif; font-size:18px; color:' + (allDone ? 'var(--success)' : 'var(--text-dim)') + ';">' + PLAN.meals[dow3].label + '</div></div></div>';
   }
   document.getElementById('daily-log').innerHTML = logHtml || '<div class="empty">Nema podataka još</div>';
 }
@@ -1248,6 +2461,7 @@ function setStat(id, done, expected) {
 function renderSettingsTab() {
   document.getElementById('set-start-weight').value = state.settings.startWeight;
   document.getElementById('set-goal-weight').value = state.settings.goalWeight;
+  document.getElementById('set-tdee').value = state.settings.tdee;
   document.getElementById('set-start-date').value = state.settings.startDate;
   document.getElementById('set-end-date').value = state.settings.endDate;
   document.getElementById('set-gh-token').value = state.settings.ghToken || '';
@@ -1258,6 +2472,7 @@ function renderSettingsTab() {
 function saveSettings() {
   state.settings.startWeight = parseFloat(document.getElementById('set-start-weight').value) || 94;
   state.settings.goalWeight = parseFloat(document.getElementById('set-goal-weight').value) || 88;
+  state.settings.tdee = parseInt(document.getElementById('set-tdee').value) || 2500;
   state.settings.startDate = document.getElementById('set-start-date').value;
   state.settings.endDate = document.getElementById('set-end-date').value;
   state.settings.ghToken = document.getElementById('set-gh-token').value.trim();
@@ -1267,14 +2482,13 @@ function saveSettings() {
   toast('Postavke spremljene ✓');
   updateSyncStatus();
   renderToday();
-  // if token exists but no gist, create one
   if (state.settings.ghToken && !state.settings.gistId) {
     createGist();
   }
 }
 
 // ============================================
-// GITHUB GIST SYNC
+// SYNC
 // ============================================
 function setSyncStatus(status, text) {
   var dot = document.getElementById('sync-dot');
@@ -1283,110 +2497,67 @@ function setSyncStatus(status, text) {
 }
 
 function updateSyncStatus() {
-  if (!state.settings.ghToken) {
-    setSyncStatus('', 'LOCAL ONLY');
-  } else if (!state.settings.gistId) {
-    setSyncStatus('err', 'NO GIST');
-  } else if (state.lastSync) {
+  if (!state.settings.ghToken) setSyncStatus('', 'LOCAL ONLY');
+  else if (!state.settings.gistId) setSyncStatus('err', 'NO GIST');
+  else if (state.lastSync) {
     var lt = new Date(state.lastSync);
     setSyncStatus('ok', 'SYNCED ' + lt.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' }));
-  } else {
-    setSyncStatus('', 'READY');
-  }
+  } else setSyncStatus('', 'READY');
+}
+
+function syncStateOnly() {
+  // strip photos from sync (they're separate)
+  return state;
 }
 
 function createGist() {
-  if (!state.settings.ghToken) {
-    toast('Treba ti GitHub token prvo');
-    return;
-  }
-  setSyncStatus('syncing', 'CREATING GIST...');
+  if (!state.settings.ghToken) { toast('Treba ti token prvo'); return; }
+  setSyncStatus('syncing', 'CREATING...');
   fetch('https://api.github.com/gists', {
     method: 'POST',
-    headers: {
-      'Authorization': 'token ' + state.settings.ghToken,
-      'Accept': 'application/vnd.github+json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      description: 'Bruno Cut Tracker Data',
-      public: false,
-      files: { 'bruno-cut.json': { content: JSON.stringify(state, null, 2) } }
-    })
+    headers: { 'Authorization': 'token ' + state.settings.ghToken, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ description: 'Bruno Cut Tracker', public: false, files: { 'bruno-cut.json': { content: JSON.stringify(syncStateOnly(), null, 2) } } })
   })
-  .then(function(r) {
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return r.json();
-  })
+  .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
   .then(function(data) {
     state.settings.gistId = data.id;
     state.lastSync = new Date().toISOString();
     saveState();
     document.getElementById('set-gist-id').value = data.id;
     updateSyncStatus();
-    toast('Gist napravljen, sync radi ✓');
+    toast('Gist napravljen ✓');
   })
-  .catch(function(e) {
-    console.error(e);
-    setSyncStatus('err', 'CREATE FAILED');
-    toast('Greška kod kreiranja gista: ' + e.message);
-  });
+  .catch(function(e) { setSyncStatus('err', 'CREATE FAILED'); toast('Greška: ' + e.message); });
 }
 
 function syncUp(silent) {
-  if (!state.settings.ghToken || !state.settings.gistId) {
-    if (!silent) toast('Postavi token + Gist ID prvo');
-    return;
-  }
-  setSyncStatus('syncing', 'SYNCING UP...');
+  if (!state.settings.ghToken || !state.settings.gistId) { if (!silent) toast('Postavi token + Gist ID'); return; }
+  setSyncStatus('syncing', 'SYNCING...');
   fetch('https://api.github.com/gists/' + state.settings.gistId, {
     method: 'PATCH',
-    headers: {
-      'Authorization': 'token ' + state.settings.ghToken,
-      'Accept': 'application/vnd.github+json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      files: { 'bruno-cut.json': { content: JSON.stringify(state, null, 2) } }
-    })
+    headers: { 'Authorization': 'token ' + state.settings.ghToken, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ files: { 'bruno-cut.json': { content: JSON.stringify(syncStateOnly(), null, 2) } } })
   })
-  .then(function(r) {
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return r.json();
-  })
+  .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
   .then(function() {
     state.lastSync = new Date().toISOString();
     saveState();
     updateSyncStatus();
     if (!silent) toast('Sync up ✓');
   })
-  .catch(function(e) {
-    console.error(e);
-    setSyncStatus('err', 'SYNC FAILED');
-    if (!silent) toast('Sync greška: ' + e.message);
-  });
+  .catch(function(e) { setSyncStatus('err', 'SYNC FAILED'); if (!silent) toast('Sync greška: ' + e.message); });
 }
 
 function syncDown() {
-  if (!state.settings.ghToken || !state.settings.gistId) {
-    toast('Postavi token + Gist ID prvo');
-    return;
-  }
-  setSyncStatus('syncing', 'SYNCING DOWN...');
+  if (!state.settings.ghToken || !state.settings.gistId) { toast('Postavi token + Gist ID'); return; }
+  setSyncStatus('syncing', 'PULL...');
   fetch('https://api.github.com/gists/' + state.settings.gistId, {
-    headers: {
-      'Authorization': 'token ' + state.settings.ghToken,
-      'Accept': 'application/vnd.github+json',
-    }
+    headers: { 'Authorization': 'token ' + state.settings.ghToken, 'Accept': 'application/vnd.github+json' }
   })
-  .then(function(r) {
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return r.json();
-  })
+  .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
   .then(function(data) {
     var content = data.files['bruno-cut.json'].content;
     var remote = JSON.parse(content);
-    // merge: keep local token/gistId, take everything else from remote
     var localToken = state.settings.ghToken;
     var localGist = state.settings.gistId;
     var localAuto = state.settings.autoSync;
@@ -1398,48 +2569,31 @@ function syncDown() {
     saveState();
     updateSyncStatus();
     renderToday();
-    toast('Sync down ✓');
+    toast('Pulled ✓');
   })
-  .catch(function(e) {
-    console.error(e);
-    setSyncStatus('err', 'DOWN FAILED');
-    toast('Sync down greška: ' + e.message);
-  });
+  .catch(function(e) { setSyncStatus('err', 'PULL FAILED'); toast('Greška: ' + e.message); });
 }
 
 function syncNow() {
-  // smart: try pull first, then push
-  if (!state.settings.ghToken) {
-    toast('Treba ti token prvo');
-    return;
-  }
-  if (!state.settings.gistId) {
-    createGist();
-    return;
-  }
-  // if local has changes since last sync, push; otherwise pull
-  // simple heuristic: always push (last-write-wins)
+  if (!state.settings.ghToken) { toast('Treba ti token prvo'); return; }
+  if (!state.settings.gistId) { createGist(); return; }
   syncUp();
 }
 
 // ============================================
-// EXPORT/IMPORT
+// EXPORT / IMPORT / RESET
 // ============================================
 function exportData() {
   try {
-    var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    var bundle = { state: state, photos: photos };
+    var blob = new Blob([JSON.stringify(bundle, null, 2)], { type: 'application/json' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
-    a.href = url;
-    a.download = 'bruno-cut-' + todayStr() + '.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    a.href = url; a.download = 'bruno-cut-' + todayStr() + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    toast('Export gotov');
-  } catch (e) {
-    toast('Export greška');
-  }
+    toast('Export ✓');
+  } catch (e) { toast('Greška export'); }
 }
 
 function importData(e) {
@@ -1449,21 +2603,28 @@ function importData(e) {
   reader.onload = function(ev) {
     try {
       var data = JSON.parse(ev.target.result);
-      state = data;
-      saveState();
+      if (data.state) {
+        state = data.state;
+        saveState();
+        if (data.photos) { photos = data.photos; savePhotos(); }
+      } else {
+        // legacy: assume the whole file is state
+        state = data;
+        saveState();
+      }
       renderToday();
-      toast('Import uspješan ✓');
-    } catch (err) {
-      toast('Greška pri importu');
-    }
+      toast('Import ✓');
+    } catch (err) { toast('Greška import'); }
   };
   reader.readAsText(file);
 }
 
 function resetAll() {
-  if (!confirm('Sigurno? Ovo briše SVE podatke.')) return;
+  if (!confirm('Sigurno? Briše SVE podatke (uključujući slike).')) return;
   localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(PHOTOS_KEY);
   state = loadState();
+  photos = [];
   renderToday();
   toast('Resetirano');
 }
@@ -1481,30 +2642,27 @@ function toast(msg) {
 }
 
 // ============================================
-// TAB SWITCHING
+// TAB SWITCH + INIT
 // ============================================
 function renderTab(tab) {
   try {
     if (tab === 'today') renderToday();
     if (tab === 'meals') renderMealsTab();
     if (tab === 'workout') renderWorkoutTab();
+    if (tab === 'body') renderBodyTab();
+    if (tab === 'photos') renderPhotosTab();
+    if (tab === 'food') renderFoodTab();
     if (tab === 'shopping') renderShoppingTab();
     if (tab === 'prices') renderPricesTab();
     if (tab === 'stats') renderStatsTab();
     if (tab === 'settings') renderSettingsTab();
-  } catch (e) {
-    console.error('renderTab error', tab, e);
-    toast('Tab greška: ' + e.message);
-  }
+  } catch (e) { console.error('renderTab error', tab, e); toast('Tab greška: ' + e.message); }
 }
 
-// ============================================
-// INIT
-// ============================================
 function init() {
   state = loadState();
+  loadPhotos();
 
-  // tab buttons
   document.querySelectorAll('.tab').forEach(function(btn) {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.tab').forEach(function(b) { b.classList.remove('active'); });
@@ -1515,43 +2673,53 @@ function init() {
     });
   });
 
-  // button handlers
   document.getElementById('save-weight-btn').addEventListener('click', saveWeight);
-  document.getElementById('weight-input').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') saveWeight();
-  });
+  document.getElementById('weight-input').addEventListener('keypress', function(e) { if (e.key === 'Enter') saveWeight(); });
+  document.getElementById('save-measure-btn').addEventListener('click', saveMeasures);
   document.getElementById('shop-week-btn').addEventListener('click', generateWeekShopping);
   document.getElementById('shop-tomorrow-btn').addEventListener('click', generateTomorrowShopping);
   document.getElementById('save-settings-btn').addEventListener('click', saveSettings);
   document.getElementById('export-btn').addEventListener('click', exportData);
-  document.getElementById('import-btn').addEventListener('click', function() {
-    document.getElementById('import-file').click();
-  });
+  document.getElementById('import-btn').addEventListener('click', function() { document.getElementById('import-file').click(); });
   document.getElementById('import-file').addEventListener('change', importData);
   document.getElementById('reset-btn').addEventListener('click', resetAll);
   document.getElementById('sync-now-btn').addEventListener('click', syncNow);
-  document.getElementById('sync-help-btn').addEventListener('click', function() {
-    document.getElementById('sync-help-modal').style.display = 'block';
-  });
+  document.getElementById('sync-help-btn').addEventListener('click', function() { document.getElementById('sync-help-modal').style.display = 'block'; });
+  document.getElementById('sync-help-close-btn').addEventListener('click', function() { document.getElementById('sync-help-modal').style.display = 'none'; });
 
-  // initial render
+  document.getElementById('add-photo-front-btn').addEventListener('click', function() { addPhoto('front'); });
+  document.getElementById('add-photo-side-btn').addEventListener('click', function() { addPhoto('profil'); });
+  document.getElementById('add-photo-back-btn').addEventListener('click', function() { addPhoto('leđa'); });
+  document.getElementById('photo-input').addEventListener('change', handlePhotoUpload);
+
+  // custom meal modal
+  document.getElementById('add-custom-meal-btn').addEventListener('click', openCustomMealModal);
+  document.getElementById('cm-cancel-btn').addEventListener('click', closeCustomMealModal);
+  document.getElementById('cm-save-btn').addEventListener('click', saveCustomMeal);
+  document.querySelectorAll('.cm-mode-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { setCustomMealMode(btn.dataset.mode); });
+  });
+  ['cm-grams', 'cm-kcal', 'cm-protein', 'cm-fat', 'cm-carbs', 'cm-lib-qty'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', updateCustomMealPreview);
+  });
+  document.getElementById('cm-search').addEventListener('input', function(e) { renderLibrarySearch(e.target.value); });
+
+  // custom food modal
+  document.getElementById('add-food-btn').addEventListener('click', openCustomFoodModal);
+  document.getElementById('cf-cancel-btn').addEventListener('click', closeCustomFoodModal);
+  document.getElementById('cf-save-btn').addEventListener('click', saveCustomFood);
+
   renderToday();
   updateSyncStatus();
 
-  // auto sync down on load if configured
   if (state.settings.ghToken && state.settings.gistId) {
     setTimeout(syncDown, 500);
   }
 }
 
-// run init when DOM ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
-}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+else init();
 
-// expose for debug
 window.brunoState = function() { return state; };
 
 })();
